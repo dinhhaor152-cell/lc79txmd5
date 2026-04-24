@@ -28,9 +28,9 @@ const GAMES = {
     }
 };
 
-const MAX_PRED_LOG = 10000;     
-const PERSIST_LIMIT = 5000;    
-const DEFAULT_HISTORY_LIMIT = 1000;
+const MAX_PRED_LOG = 50000;     // Sức chứa khổng lồ cho AI Tối Thượng
+const PERSIST_LIMIT = 20000;    // Lưu trữ bền vững phục vụ nâng cấp Deep Learning
+const DEFAULT_HISTORY_LIMIT = 5000;
 
 // ==================== STATE PER GAME ====================
 const STATE = {};
