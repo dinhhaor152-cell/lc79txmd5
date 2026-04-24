@@ -239,6 +239,43 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ==================== ROUTES ====================
+// ENDPOINT TRÍ TUỆ ĐEN (BLACK BOX INTELLIGENCE) - HỖ TRỢ XUẤT ALL GAMES
+app.get('/api/system-intelligence', (req, res) => {
+    const requestedGame = req.query.game;
+    
+    const formatExport = (gameId) => {
+        const store = gameStores[gameId];
+        if (!store) return null;
+        return store.history.map(h => ({
+            phien: h.phien,
+            kq_that: h.correct !== null ? (h.correct ? h.prediction : (h.prediction === 'TAI' ? 'XIU' : 'TAI')) : 'WAIT',
+            ai_bao: h.prediction,
+            tin_cay: h.confidence,
+            logic: h.logic,
+            endgame: h.adaptive?.recommendation || 'NONE',
+            dung_sai: h.correct
+        }));
+    };
+
+    let result = {};
+    if (!requestedGame || requestedGame === 'all') {
+        Object.keys(gameStores).forEach(gid => {
+            result[gid] = formatExport(gid);
+        });
+    } else {
+        const data = formatExport(requestedGame);
+        if (!data) return res.status(404).json({ error: 'Game not found' });
+        result[requestedGame] = data;
+    }
+
+    res.json({
+        status: 'MONSTER_INTELLIGENCE_DUMP',
+        timestamp: new Date().toISOString(),
+        model_version: 'V10_STABLE',
+        bundle: result
+    });
+});
+
 app.get('/predict/:gameId', (req, res) => {
     const gid = req.params.gameId;
     if (!STATE[gid]) return res.status(404).json({ error: 'Game not found', games: Object.keys(GAMES) });
