@@ -1146,7 +1146,7 @@
                 const pred = await predRes.json();
                 const hist = await histRes.json();
 
-                document.getElementById('server-status').innerHTML = '✅ CONNECTED SECURELY <br> Trích xuất dữ liệu lượng tử 3s/lần';
+                document.getElementById('server-status').innerHTML = '<i class="fas fa-check-circle" style="color:#0f0"></i> <span style="color:#0f0">SYSTEM ONLINE (MONSTER MODE)</span>';
 
                 document.getElementById('ai-phien').innerText = `PHIÊN #${pred.phien}`;
 
@@ -1158,11 +1158,7 @@
 
                 // Kiểm tra ENDGAME
                 const isEndgame = pred.adaptive && pred.adaptive.recommendation && pred.adaptive.recommendation.includes('TẤT TAY');
-                if (isEndgame) {
-                    document.body.classList.add('endgame-active');
-                } else {
-                    document.body.classList.remove('endgame-active');
-                }
+                document.body.className = isEndgame ? 'endgame-active' : '';
 
                 if (pred.prediction) {
                     const isTai = pred.prediction === 'TAI';
