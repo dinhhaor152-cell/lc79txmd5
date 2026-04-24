@@ -244,7 +244,7 @@ app.get('/api/system-intelligence', (req, res) => {
     const requestedGame = req.query.game;
     
     const formatExport = (gameId) => {
-        const store = gameStores[gameId];
+        const store = STATE[gameId];
         if (!store || !Array.isArray(store.history)) return [];
         return store.history.map(h => ({
             phien: h.phien || 0,
@@ -259,7 +259,7 @@ app.get('/api/system-intelligence', (req, res) => {
 
     let result = {};
     if (!requestedGame || requestedGame === 'all') {
-        Object.keys(gameStores).forEach(gid => {
+        Object.keys(STATE).forEach(gid => {
             result[gid] = formatExport(gid);
         });
     } else {
