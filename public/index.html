@@ -1,557 +1,1225 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TOOL VIP VI LONG - ENDGAME MONSTER V10.0</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
-body {
-    font-family: 'Inter', sans-serif;
-    background: radial-gradient(circle at center, #050505 0%, #000000 100%);
-    min-height: 100vh;
-    display: flex; flex-direction: column; align-items: center;
-    padding: 20px; color: #fff;
-    user-select: none;
-    transition: background 0.5s ease;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOOL VIP VI LONG - ENDGAME MONSTER V10.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+        }
 
-/* ENDGAME MONSTER MODE (Khi thuật toán phát tín hiệu TẤT TAY) */
-body.endgame-active {
-    background: radial-gradient(circle at center, #2a0000 0%, #000000 100%);
-    animation: endgameBgPulse 2s infinite;
-}
-@keyframes endgameBgPulse {
-    0%, 100% { box-shadow: inset 0 0 50px #ff0000; }
-    50% { box-shadow: inset 0 0 150px #ff0000; }
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at center, #050505 0%, #000000 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+            user-select: none;
+            transition: background 0.5s ease;
+        }
 
-@keyframes spin { 100%{transform:rotate(360deg)} }
-@keyframes spinReverse { 100%{transform:rotate(-360deg)} }
+        /* ENDGAME MONSTER MODE (Khi thuật toán phát tín hiệu TẤT TAY) */
+        body.endgame-active {
+            background: radial-gradient(circle at center, #2a0000 0%, #000000 100%);
+            animation: endgameBgPulse 2s infinite;
+        }
 
-/* NEON GLOWS */
-@keyframes neonPulse {
-    0% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 10px rgba(0, 255, 255, 0.2); }
-    50% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.8), inset 0 0 20px rgba(0, 255, 255, 0.5); }
-    100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 10px rgba(0, 255, 255, 0.2); }
-}
+        @keyframes endgameBgPulse {
 
-@keyframes endgameNeonPulse {
-    0% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.8), inset 0 0 20px rgba(255, 0, 0, 0.5); border-color: #ff0000; }
-    50% { box-shadow: 0 0 60px rgba(255, 0, 0, 1), inset 0 0 40px rgba(255, 0, 0, 0.8); border-color: #ff3333; }
-    100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.8), inset 0 0 20px rgba(255, 0, 0, 0.5); border-color: #ff0000; }
-}
+            0%,
+            100% {
+                box-shadow: inset 0 0 50px #ff0000;
+            }
 
-@keyframes fastBlinkGreen { 0%,100%{opacity:1;box-shadow:0 0 40px #0f0,inset 0 0 30px #0f0;background:#0f0} 50%{opacity:0.2;background:rgba(0,255,0,0.1)} }
-@keyframes fastBlinkRed { 0%,100%{opacity:1;box-shadow:0 0 40px #f00,inset 0 0 30px #f00;background:#f00} 50%{opacity:0.2;background:rgba(255,0,0,0.1)} }
-@keyframes centerFlashGreen { 0%,100%{border-color:#0f0;box-shadow:0 0 30px #0f0,inset 0 0 20px #0f0} 50%{border-color:transparent;box-shadow:none} }
-@keyframes centerFlashRed { 0%,100%{border-color:#f00;box-shadow:0 0 30px #f00,inset 0 0 20px #f00} 50%{border-color:transparent;box-shadow:none} }
-@keyframes nhayDaoKq { 0%,100%{opacity:1;transform:scale(1.1)} 50%{opacity:0.5;transform:scale(0.9)} }
+            50% {
+                box-shadow: inset 0 0 150px #ff0000;
+            }
+        }
 
-.header { text-align:center; margin-bottom:20px; font-family: 'Orbitron', sans-serif; }
-.header h1 { font-size:24px; font-weight:900; letter-spacing:4px; text-transform:uppercase; text-shadow:0 0 25px #00ffff; color:#fff; }
-body.endgame-active .header h1 { text-shadow:0 0 25px #ff0000; color:#ffdddd; }
-.header p { color:#aaa; font-size:12px; margin-top:5px; font-family:'Inter', sans-serif;}
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg)
+            }
+        }
 
-.game-tabs { display:flex; gap:10px; margin-bottom:20px; }
-.tab-btn {
-    padding:12px 25px; border:1px solid rgba(0,255,255,0.4); background:rgba(0,10,20,0.6);
-    color:#aaa; border-radius:12px; cursor:pointer; font-weight:bold; font-size:14px;
-    transition:0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: 'Orbitron', sans-serif;
-    backdrop-filter: blur(10px);
-}
-.tab-btn.active { background:rgba(0,255,255,0.15); color:#00ffff; border-color:#00ffff; box-shadow:0 0 20px rgba(0,255,255,0.4); transform: translateY(-2px); }
-body.endgame-active .tab-btn.active { background:rgba(255,0,0,0.2); color:#ff5555; border-color:#ff0000; box-shadow:0 0 20px rgba(255,0,0,0.5); }
+        @keyframes spinReverse {
+            100% {
+                transform: rotate(-360deg)
+            }
+        }
 
-/* MAIN PILL */
-.god-pill {
-    width:340px; padding:25px 20px;
-    background: rgba(10, 15, 30, 0.6);
-    backdrop-filter: blur(25px);
-    border: 1px solid rgba(0, 255, 255, 0.3);
-    border-radius: 30px; display:flex; flex-direction:column; align-items:center;
-    animation: neonPulse 4s infinite;
-    position:relative; overflow:hidden;
-    margin-bottom:25px; transition: all 0.5s ease;
-}
-body.endgame-active .god-pill {
-    background: rgba(40, 5, 5, 0.8);
-    border: 2px solid #ff0000;
-    animation: endgameNeonPulse 1.5s infinite;
-}
+        /* NEON GLOWS */
+        @keyframes neonPulse {
+            0% {
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 10px rgba(0, 255, 255, 0.2);
+            }
 
-.god-pill::before {
-    content:'MONSTER ALGORITHM'; position:absolute; top:50%; left:50%;
-    transform:translate(-50%,-50%) rotate(-10deg);
-    font-size:35px; font-weight:900; color:rgba(255,255,255,0.03);
-    pointer-events:none; white-space:nowrap; letter-spacing:5px; z-index:0; font-family: 'Orbitron', sans-serif;
-}
-body.endgame-active .god-pill::before { content:'ENDGAME FATAL STRIKE'; color:rgba(255,0,0,0.08); font-size:32px;}
+            50% {
+                box-shadow: 0 0 40px rgba(0, 255, 255, 0.8), inset 0 0 20px rgba(0, 255, 255, 0.5);
+            }
 
-.current-number-header {
-    width:100%; background:rgba(0,0,0,0.7); border:1px solid rgba(0,255,255,0.4);
-    border-radius:15px; padding:10px 15px; margin-bottom:20px; z-index:5; position:relative;
-    display:flex; justify-content:space-between; align-items:center;
-    box-shadow: inset 0 0 15px rgba(0,255,255,0.1);
-}
-body.endgame-active .current-number-header { border-color:#ff0000; box-shadow: inset 0 0 20px rgba(255,0,0,0.3); }
+            100% {
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 10px rgba(0, 255, 255, 0.2);
+            }
+        }
 
-.c-label { font-size:12px; color:#ccc; font-weight:bold; text-transform:uppercase; letter-spacing:1px; }
-.c-value { font-size:22px; color:#00ffff; font-weight:900; text-shadow:0 0 20px #00ffff; letter-spacing:2px; font-family: 'Orbitron', sans-serif; }
-body.endgame-active .c-value { color:#ff3333; text-shadow:0 0 20px #ff0000; }
+        @keyframes endgameNeonPulse {
+            0% {
+                box-shadow: 0 0 30px rgba(255, 0, 0, 0.8), inset 0 0 20px rgba(255, 0, 0, 0.5);
+                border-color: #ff0000;
+            }
 
-.pill-main-row { display:flex; align-items:center; justify-content:space-between; width:100%; z-index:5; position:relative; }
-.signal-col { display:flex; flex-direction:column; align-items:center; width:65px; }
-.signal-text-top { font-size:16px; font-weight:900; color:#555; margin-bottom:10px; letter-spacing:3px; transition:0.3s; font-family: 'Orbitron', sans-serif;}
-.signal-lamp { width:50px; height:50px; border-radius:50%; background:rgba(5,5,5,0.9); border:2px solid rgba(255,255,255,0.1); transition:all 0.4s; box-shadow:inset 0 0 15px rgba(0,0,0,0.9); }
+            50% {
+                box-shadow: 0 0 60px rgba(255, 0, 0, 1), inset 0 0 40px rgba(255, 0, 0, 0.8);
+                border-color: #ff3333;
+            }
 
-.active-tai { animation:fastBlinkGreen 0.4s infinite; border-color:#0f0;}
-.active-tai-text { color:#0f0 !important; text-shadow:0 0 20px #0f0 !important; font-size:18px; }
-.active-xiu { animation:fastBlinkRed 0.4s infinite; border-color:#f00;}
-.active-xiu-text { color:#f00 !important; text-shadow:0 0 20px #f00 !important; font-size:18px; }
+            100% {
+                box-shadow: 0 0 30px rgba(255, 0, 0, 0.8), inset 0 0 20px rgba(255, 0, 0, 0.5);
+                border-color: #ff0000;
+            }
+        }
 
-.ai-core { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; padding:0 10px; }
-.phien-label {
-    position:absolute; top:-40px; left:50%; transform:translateX(-50%);
-    font-size:12px; color:#fff; font-family: 'Orbitron', sans-serif; font-weight:bold;
-    background:rgba(0,10,20,0.9); padding:5px 15px; border-radius:10px;
-    border:1px solid rgba(0,255,255,0.8); z-index:10; white-space:nowrap;
-    box-shadow:0 0 20px rgba(0,255,255,0.4);
-}
-body.endgame-active .phien-label { border-color:#ff0000; box-shadow:0 0 25px rgba(255,0,0,0.6); background:#330000; }
+        @keyframes fastBlinkGreen {
 
-.ai-logo-wrap {
-    width:75px; height:75px; border-radius:50%; position:relative;
-    display:flex; align-items:center; justify-content:center; margin-bottom:10px;
-    background:rgba(0,15,30,0.8); border:2px solid rgba(0,255,255,0.8);
-    box-shadow:0 0 35px rgba(0,255,255,0.6);
-}
-body.endgame-active .ai-logo-wrap { border-color:#ff0000; box-shadow:0 0 45px rgba(255,0,0,0.9); }
+            0%,
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 40px #0f0, inset 0 0 30px #0f0;
+                background: #0f0
+            }
 
-.center-blink-tai { animation:centerFlashGreen 0.5s infinite; }
-.center-blink-xiu { animation:centerFlashRed 0.5s infinite; }
-.orbit-1 { position:absolute; width:135%; height:135%; border-radius:50%; border:2px solid transparent; border-top-color:#00ffff; border-left-color:#00ffff; animation:spin 2s linear infinite; pointer-events:none; }
-.orbit-2 { position:absolute; width:165%; height:165%; border-radius:50%; border:3px solid transparent; border-bottom-color:#ff00ff; border-right-color:#ff00ff; animation:spinReverse 3s linear infinite; pointer-events:none; }
-body.endgame-active .orbit-1 { border-top-color:#ff0000; border-left-color:#ff0000; animation-duration: 0.8s; }
-body.endgame-active .orbit-2 { border-bottom-color:#ffaa00; border-right-color:#ffaa00; animation-duration: 1.2s; }
+            50% {
+                opacity: 0.2;
+                background: rgba(0, 255, 0, 0.1)
+            }
+        }
 
-.orbit-3 { position:absolute; width:110%; height:110%; border-radius:50%; border:2px dotted rgba(255,255,255,0.5); animation:spin 4s linear infinite; pointer-events:none; opacity:0.8; }
-.ai-logo { width:60px; height:60px; border-radius:50%; z-index:2; box-shadow:0 0 25px rgba(0,255,255,0.9); background:#000; border:2px solid #00ffff; object-fit:cover; }
-body.endgame-active .ai-logo { box-shadow:0 0 35px #ff0000; border-color:#ff0000; filter: hue-rotate(150deg) saturate(3); } /* Makes the skull look demonic */
+        @keyframes fastBlinkRed {
 
-.msg-container { width:100%; margin-top:20px; background:rgba(0,0,0,0.7); border-radius:15px; padding:15px; border:1px dashed rgba(0,255,255,0.4); z-index:5; position:relative; }
-body.endgame-active .msg-container { border-color:#ff0000; background:rgba(30,0,0,0.8); }
+            0%,
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 40px #f00, inset 0 0 30px #f00;
+                background: #f00
+            }
 
-.ai-msg { font-size:12px; text-transform:uppercase; font-weight:900; text-align:center; margin-bottom:5px; font-family:'Inter', sans-serif;}
-#ai-status { color:#00ffff; font-size:14px; margin-bottom:10px; letter-spacing:1px; line-height: 1.4; }
-body.endgame-active #ai-status { color:#ff3333; text-shadow:0 0 10px #ff0000; font-size:15px; font-family: 'Orbitron', sans-serif; animation: nhayDaoKq 0.5s infinite;}
+            50% {
+                opacity: 0.2;
+                background: rgba(255, 0, 0, 0.1)
+            }
+        }
 
-#ai-conf { color:#0f0; font-size:13px; background:rgba(0,255,0,0.15); padding:4px 10px; border-radius:6px; display:inline-block; border: 1px solid rgba(0,255,0,0.3); font-family: 'Orbitron', sans-serif;}
-body.endgame-active #ai-conf { color:#fff; background:#ff0000; border-color:#ffaaaa; box-shadow: 0 0 15px #ff0000; }
+        @keyframes centerFlashGreen {
 
-#ai-detail { color:#ddd; font-size:12px; line-height:1.6; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px; margin-top:10px; text-align:left; }
+            0%,
+            100% {
+                border-color: #0f0;
+                box-shadow: 0 0 30px #0f0, inset 0 0 20px #0f0
+            }
 
-/* REVERSAL FLASH */
-@keyframes bgNhayDaoRed {
-    0%,100%{background:rgba(255,0,0,0.2);border-color:#ff0000;box-shadow:inset 0 0 20px #ff0000}
-    50%{background:rgba(255,100,0,0.2);border-color:#ff6600;box-shadow:inset 0 0 20px #ff6600}
-}
-.reversal-flash-box { animation:bgNhayDaoRed 0.3s infinite; color:#fff; font-size:12px; font-weight:900; text-align:center; padding:10px; border-radius:10px; margin-bottom:10px; border:2px dashed; display:flex; justify-content:center; align-items:center; gap:5px; font-family: 'Orbitron', sans-serif; }
+            50% {
+                border-color: transparent;
+                box-shadow: none
+            }
+        }
 
-/* ==================== PANEL DƯỚI ==================== */
-.panel-grid { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; max-width: 340px; }
+        @keyframes centerFlashRed {
 
-.box-module {
-    background: rgba(10, 15, 30, 0.6); backdrop-filter: blur(25px);
-    border: 1px solid rgba(0, 255, 255, 0.2); border-radius: 20px; padding: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-}
-body.endgame-active .box-module { border-color: rgba(255, 0, 0, 0.3); background: rgba(30, 5, 5, 0.7); }
+            0%,
+            100% {
+                border-color: #f00;
+                box-shadow: 0 0 30px #f00, inset 0 0 20px #f00
+            }
 
-.box-module h3 { font-size:14px; color:#00ffff; text-transform:uppercase; letter-spacing:2px; margin-bottom:15px; text-align:center; font-family: 'Orbitron', sans-serif; text-shadow:0 0 10px rgba(0,255,255,0.5); }
-body.endgame-active .box-module h3 { color:#ff3333; text-shadow:0 0 10px rgba(255,0,0,0.5); }
+            50% {
+                border-color: transparent;
+                box-shadow: none
+            }
+        }
 
-/* VỐN */
-.capital-input-group { margin-bottom:12px; }
-.capital-input-group label { display:block; font-size:11px; color:#aaa; margin-bottom:5px; font-weight:bold; text-transform:uppercase; }
-.capital-input-group input, .capital-input-group select {
-    width:100%; padding:10px 12px; background:rgba(0,0,0,0.7); border:1px solid rgba(0,255,255,0.3);
-    border-radius:10px; color:#fff; font-size:14px; font-weight:bold; font-family:inherit; transition: 0.3s;
-}
-.capital-input-group input:focus, .capital-input-group select:focus { border-color:#00ffff; box-shadow:0 0 15px rgba(0,255,255,0.3); }
+        @keyframes nhayDaoKq {
 
-.capital-suggest {
-    margin-top:15px; padding:15px; border-radius:12px;
-    background:linear-gradient(135deg,rgba(0,255,255,0.1),rgba(0,100,255,0.1));
-    border:1px dashed #00ffff; text-align:center;
-}
-body.endgame-active .capital-suggest { background:linear-gradient(135deg,rgba(255,0,0,0.2),rgba(150,0,0,0.2)); border-color:#ff0000; animation: endgameNeonPulse 1s infinite; }
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1.1)
+            }
 
-.capital-suggest .label { font-size:11px; color:#ccc; text-transform:uppercase; letter-spacing:1px; }
-.capital-suggest .amount { font-size:24px; font-weight:900; color:#00ffff; text-shadow:0 0 15px rgba(0,255,255,0.8); margin:8px 0; font-family: 'Orbitron', sans-serif; }
-body.endgame-active .capital-suggest .amount { color:#fff; text-shadow:0 0 20px #ff0000; font-size: 28px; }
+            50% {
+                opacity: 0.5;
+                transform: scale(0.9)
+            }
+        }
 
-.capital-suggest .msg { font-size:13px; font-weight:900; font-family: 'Orbitron', sans-serif;}
-.capital-suggest .msg.go { color:#0f0; }
-.capital-suggest .msg.skip { color:#aaa; }
-body.endgame-active .capital-suggest .msg.go { color:#ff0000; text-shadow: 0 0 10px #ff0000; font-size: 16px; }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
+        }
 
-/* STATS */
-.stats-row { display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px;}
-.stats-row span:first-child { color:#aaa; }
-.stats-row span:last-child { color:#fff; font-weight:bold; font-family: 'Orbitron', sans-serif; }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 0 25px #00ffff;
+            color: #fff;
+        }
 
-/* HISTORY */
-.history-box { max-height:350px; overflow-y:auto; }
-.history-box::-webkit-scrollbar { width: 4px; }
-.history-box::-webkit-scrollbar-track { background: transparent; }
-.history-box::-webkit-scrollbar-thumb { background: rgba(0,255,255,0.3); border-radius: 4px; }
-.history-item { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:12px; }
-.history-item .phien { color:#888; font-family: 'Orbitron', sans-serif;}
-.history-item .pred { font-weight:900; font-size:13px;}
-.history-item .pred.tai { color:#0f0; }
-.history-item .pred.xiu { color:#f00; }
-.history-item .result-icon { font-size:15px; }
-.history-item .conf { color:#666; font-family: 'Orbitron', sans-serif; }
+        body.endgame-active .header h1 {
+            text-shadow: 0 0 25px #ff0000;
+            color: #ffdddd;
+        }
 
-/* LOCK OVERLAY CHO VỐN */
-.box-module.locked { opacity: 0.6; pointer-events: none; position: relative; }
-.box-module.locked::after {
-    content: "🔒 AI ĐANG GOM DATA - KHÓA BẢO TOÀN VỐN 🔒";
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: rgba(255,0,0,0.9); padding: 12px 20px; border-radius: 12px; color: #fff;
-    font-weight: 900; font-size: 13px; z-index: 100; white-space: nowrap;
-    box-shadow: 0 0 20px #f00; border: 2px solid #fff; font-family: 'Orbitron', sans-serif;
-}
-</style>
+        .header p {
+            color: #aaa;
+            font-size: 12px;
+            margin-top: 5px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .game-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            background: rgba(0, 10, 20, 0.6);
+            color: #aaa;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Orbitron', sans-serif;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-btn.active {
+            background: rgba(0, 255, 255, 0.15);
+            color: #00ffff;
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        body.endgame-active .tab-btn.active {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff5555;
+            border-color: #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        /* MAIN PILL */
+        .god-pill {
+            width: 340px;
+            padding: 25px 20px;
+            background: rgba(10, 15, 30, 0.6);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: neonPulse 4s infinite;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 25px;
+            transition: all 0.5s ease;
+        }
+
+        body.endgame-active .god-pill {
+            background: rgba(40, 5, 5, 0.8);
+            border: 2px solid #ff0000;
+            animation: endgameNeonPulse 1.5s infinite;
+        }
+
+        .god-pill::before {
+            content: 'MONSTER ALGORITHM';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-10deg);
+            font-size: 35px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+            white-space: nowrap;
+            letter-spacing: 5px;
+            z-index: 0;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        body.endgame-active .god-pill::before {
+            content: 'ENDGAME FATAL STRIKE';
+            color: rgba(255, 0, 0, 0.08);
+            font-size: 32px;
+        }
+
+        .current-number-header {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            border-radius: 15px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            z-index: 5;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.1);
+        }
+
+        body.endgame-active .current-number-header {
+            border-color: #ff0000;
+            box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .c-label {
+            font-size: 12px;
+            color: #ccc;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .c-value {
+            font-size: 22px;
+            color: #00ffff;
+            font-weight: 900;
+            text-shadow: 0 0 20px #00ffff;
+            letter-spacing: 2px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        body.endgame-active .c-value {
+            color: #ff3333;
+            text-shadow: 0 0 20px #ff0000;
+        }
+
+        .pill-main-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            z-index: 5;
+            position: relative;
+        }
+
+        .signal-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 65px;
+        }
+
+        .signal-text-top {
+            font-size: 16px;
+            font-weight: 900;
+            color: #555;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            transition: 0.3s;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .signal-lamp {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(5, 5, 5, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
+        }
+
+        .active-tai {
+            animation: fastBlinkGreen 0.4s infinite;
+            border-color: #0f0;
+        }
+
+        .active-tai-text {
+            color: #0f0 !important;
+            text-shadow: 0 0 20px #0f0 !important;
+            font-size: 18px;
+        }
+
+        .active-xiu {
+            animation: fastBlinkRed 0.4s infinite;
+            border-color: #f00;
+        }
+
+        .active-xiu-text {
+            color: #f00 !important;
+            text-shadow: 0 0 20px #f00 !important;
+            font-size: 18px;
+        }
+
+        .ai-core {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 0 10px;
+        }
+
+        .phien-label {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            background: rgba(0, 10, 20, 0.9);
+            padding: 5px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 255, 0.8);
+            z-index: 10;
+            white-space: nowrap;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+        }
+
+        body.endgame-active .phien-label {
+            border-color: #ff0000;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+            background: #330000;
+        }
+
+        .ai-logo-wrap {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            background: rgba(0, 15, 30, 0.8);
+            border: 2px solid rgba(0, 255, 255, 0.8);
+            box-shadow: 0 0 35px rgba(0, 255, 255, 0.6);
+        }
+
+        body.endgame-active .ai-logo-wrap {
+            border-color: #ff0000;
+            box-shadow: 0 0 45px rgba(255, 0, 0, 0.9);
+        }
+
+        .center-blink-tai {
+            animation: centerFlashGreen 0.5s infinite;
+        }
+
+        .center-blink-xiu {
+            animation: centerFlashRed 0.5s infinite;
+        }
+
+        .orbit-1 {
+            position: absolute;
+            width: 135%;
+            height: 135%;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: #00ffff;
+            border-left-color: #00ffff;
+            animation: spin 2s linear infinite;
+            pointer-events: none;
+        }
+
+        .orbit-2 {
+            position: absolute;
+            width: 165%;
+            height: 165%;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-bottom-color: #ff00ff;
+            border-right-color: #ff00ff;
+            animation: spinReverse 3s linear infinite;
+            pointer-events: none;
+        }
+
+        body.endgame-active .orbit-1 {
+            border-top-color: #ff0000;
+            border-left-color: #ff0000;
+            animation-duration: 0.8s;
+        }
+
+        body.endgame-active .orbit-2 {
+            border-bottom-color: #ffaa00;
+            border-right-color: #ffaa00;
+            animation-duration: 1.2s;
+        }
+
+        .orbit-3 {
+            position: absolute;
+            width: 110%;
+            height: 110%;
+            border-radius: 50%;
+            border: 2px dotted rgba(255, 255, 255, 0.5);
+            animation: spin 4s linear infinite;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .ai-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.9);
+            background: #000;
+            border: 2px solid #00ffff;
+            object-fit: cover;
+        }
+
+        body.endgame-active .ai-logo {
+            box-shadow: 0 0 35px #ff0000;
+            border-color: #ff0000;
+            filter: hue-rotate(150deg) saturate(3);
+        }
+
+        /* Makes the skull look demonic */
+
+        .msg-container {
+            width: 100%;
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px dashed rgba(0, 255, 255, 0.4);
+            z-index: 5;
+            position: relative;
+        }
+
+        body.endgame-active .msg-container {
+            border-color: #ff0000;
+            background: rgba(30, 0, 0, 0.8);
+        }
+
+        .ai-msg {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 5px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #ai-status {
+            color: #00ffff;
+            font-size: 14px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            line-height: 1.4;
+        }
+
+        body.endgame-active #ai-status {
+            color: #ff3333;
+            text-shadow: 0 0 10px #ff0000;
+            font-size: 15px;
+            font-family: 'Orbitron', sans-serif;
+            animation: nhayDaoKq 0.5s infinite;
+        }
+
+        #ai-conf {
+            color: #0f0;
+            font-size: 13px;
+            background: rgba(0, 255, 0, 0.15);
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        body.endgame-active #ai-conf {
+            color: #fff;
+            background: #ff0000;
+            border-color: #ffaaaa;
+            box-shadow: 0 0 15px #ff0000;
+        }
+
+        #ai-detail {
+            color: #ddd;
+            font-size: 12px;
+            line-height: 1.6;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        /* REVERSAL FLASH */
+        @keyframes bgNhayDaoRed {
+
+            0%,
+            100% {
+                background: rgba(255, 0, 0, 0.2);
+                border-color: #ff0000;
+                box-shadow: inset 0 0 20px #ff0000
+            }
+
+            50% {
+                background: rgba(255, 100, 0, 0.2);
+                border-color: #ff6600;
+                box-shadow: inset 0 0 20px #ff6600
+            }
+        }
+
+        .reversal-flash-box {
+            animation: bgNhayDaoRed 0.3s infinite;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 900;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 2px dashed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* ==================== PANEL DƯỚI ==================== */
+        .panel-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 340px;
+        }
+
+        .box-module {
+            background: rgba(10, 15, 30, 0.6);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        body.endgame-active .box-module {
+            border-color: rgba(255, 0, 0, 0.3);
+            background: rgba(30, 5, 5, 0.7);
+        }
+
+        .box-module h3 {
+            font-size: 14px;
+            color: #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        body.endgame-active .box-module h3 {
+            color: #ff3333;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        /* VỐN */
+        .capital-input-group {
+            margin-bottom: 12px;
+        }
+
+        .capital-input-group label {
+            display: block;
+            font-size: 11px;
+            color: #aaa;
+            margin-bottom: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .capital-input-group input,
+        .capital-input-group select {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+
+        .capital-input-group input:focus,
+        .capital-input-group select:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .capital-suggest {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 100, 255, 0.1));
+            border: 1px dashed #00ffff;
+            text-align: center;
+        }
+
+        body.endgame-active .capital-suggest {
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(150, 0, 0, 0.2));
+            border-color: #ff0000;
+            animation: endgameNeonPulse 1s infinite;
+        }
+
+        .capital-suggest .label {
+            font-size: 11px;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .capital-suggest .amount {
+            font-size: 24px;
+            font-weight: 900;
+            color: #00ffff;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+            margin: 8px 0;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        body.endgame-active .capital-suggest .amount {
+            color: #fff;
+            text-shadow: 0 0 20px #ff0000;
+            font-size: 28px;
+        }
+
+        .capital-suggest .msg {
+            font-size: 13px;
+            font-weight: 900;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .capital-suggest .msg.go {
+            color: #0f0;
+        }
+
+        .capital-suggest .msg.skip {
+            color: #aaa;
+        }
+
+        body.endgame-active .capital-suggest .msg.go {
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+            font-size: 16px;
+        }
+
+        /* STATS */
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 5px;
+        }
+
+        .stats-row span:first-child {
+            color: #aaa;
+        }
+
+        .stats-row span:last-child {
+            color: #fff;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* HISTORY */
+        .history-box {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .history-box::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .history-box::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .history-box::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 12px;
+        }
+
+        .history-item .phien {
+            color: #888;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .history-item .pred {
+            font-weight: 900;
+            font-size: 13px;
+        }
+
+        .history-item .pred.tai {
+            color: #0f0;
+        }
+
+        .history-item .pred.xiu {
+            color: #f00;
+        }
+
+        .history-item .result-icon {
+            font-size: 15px;
+        }
+
+        .history-item .conf {
+            color: #666;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* LOCK OVERLAY CHO VỐN */
+        .box-module.locked {
+            opacity: 0.6;
+            pointer-events: none;
+            position: relative;
+        }
+
+        .box-module.locked::after {
+            content: "🔒 AI ĐANG GOM DATA - KHÓA BẢO TOÀN VỐN 🔒";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 0, 0, 0.9);
+            padding: 12px 20px;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 900;
+            font-size: 13px;
+            z-index: 100;
+            white-space: nowrap;
+            box-shadow: 0 0 20px #f00;
+            border: 2px solid #fff;
+            font-family: 'Orbitron', sans-serif;
+        }
+        /* ENDGAME ALERT BANNER */
+        #endgame-alert {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 9999;
+            background: linear-gradient(135deg, #ff0000, #cc0000, #ff3300);
+            color: #fff;
+            text-align: center;
+            padding: 15px 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 30px rgba(255,0,0,0.6);
+            animation: endgamePulse 0.8s ease-in-out infinite alternate;
+        }
+        #endgame-alert.visible { display: block; }
+        #endgame-alert .eg-amount {
+            font-size: 28px;
+            color: #ffff00;
+            display: block;
+            margin-top: 5px;
+            text-shadow: 0 0 15px #ffaa00;
+        }
+        #endgame-alert .eg-pick {
+            font-size: 22px;
+            margin: 0 8px;
+            padding: 2px 12px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+        #endgame-alert .eg-pick.tai { background: #0f0; color: #000; }
+        #endgame-alert .eg-pick.xiu { background: #f0f; color: #000; }
+        @keyframes endgamePulse {
+            from { opacity: 1; }
+            to { opacity: 0.85; transform: scale(1.005); }
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="header">
-    <h1><i class="fas fa-satellite-dish"></i> ENDGAME MONSTER 10.0</h1>
-    <p id="server-status">Đang nạp thuật toán lõi...</p>
-</div>
-
-<div class="game-tabs">
-    <button class="tab-btn active" onclick="switchGame('lc79_hu')">LC79 HŨ</button>
-    <button class="tab-btn" onclick="switchGame('lc79_md5')">LC79 MD5</button>
-</div>
-
-<!-- LÕI AI -->
-<div class="god-pill">
-    <div class="current-number-header">
-        <span class="c-label">KẾT QUẢ VỪA RA:</span>
-        <span class="c-value" id="current-dice-val">--</span>
+    <!-- ENDGAME ALERT BANNER (Ẩn mặc định, chỉ hiện khi có tín hiệu) -->
+    <div id="endgame-alert">
+        <div>🚨 ENDGAME KÍCH HOẠT 🚨 <span class="eg-pick" id="eg-pick-label">--</span></div>
+        <span class="eg-amount" id="eg-bet-amount">-- VNĐ</span>
     </div>
-    <div class="pill-main-row">
-        <div class="signal-col">
-            <div class="signal-text-top" id="text-tai">TÀI</div>
-            <div id="lamp-tai" class="signal-lamp"></div>
+
+    <div class="header">
+        <h1><i class="fas fa-satellite-dish"></i> ENDGAME MONSTER 10.0</h1>
+        <p id="server-status">Đang nạp thuật toán lõi...</p>
+    </div>
+
+    <div class="game-tabs">
+        <button class="tab-btn active" onclick="switchGame('lc79_hu')">LC79 HŨ</button>
+        <button class="tab-btn" onclick="switchGame('lc79_md5')">LC79 MD5</button>
+    </div>
+
+    <!-- LÕI AI -->
+    <div class="god-pill">
+        <div class="current-number-header">
+            <span class="c-label">KẾT QUẢ VỪA RA:</span>
+            <span class="c-value" id="current-dice-val">--</span>
         </div>
-        <div class="ai-core">
-            <div id="ai-phien" class="phien-label">PHIÊN CHỜ</div>
-            <div id="ai-center-box" class="ai-logo-wrap">
-                <div class="orbit-1" id="orb1"></div>
-                <div class="orbit-2" id="orb2"></div>
-                <div class="orbit-3" id="orb3"></div>
-                <!-- Sửa logo mặc định thành icon ngầu hơn -->
-                <img id="ai-logo-img" src="https://lc79.cx/wp-content/uploads/2025/10/cropped-logo-lc79-com-2.webp" class="ai-logo" onerror="this.src='https://i.imgur.com/K0r5w5c.png'">
+        <div class="pill-main-row">
+            <div class="signal-col">
+                <div class="signal-text-top" id="text-tai">TÀI</div>
+                <div id="lamp-tai" class="signal-lamp"></div>
+            </div>
+            <div class="ai-core">
+                <div id="ai-phien" class="phien-label">PHIÊN CHỜ</div>
+                <div id="ai-center-box" class="ai-logo-wrap">
+                    <div class="orbit-1" id="orb1"></div>
+                    <div class="orbit-2" id="orb2"></div>
+                    <div class="orbit-3" id="orb3"></div>
+                    <!-- Sửa logo mặc định thành icon ngầu hơn -->
+                    <img id="ai-logo-img" src="https://lc79.cx/wp-content/uploads/2025/10/cropped-logo-lc79-com-2.webp"
+                        class="ai-logo" onerror="this.src='https://i.imgur.com/K0r5w5c.png'">
+                </div>
+            </div>
+            <div class="signal-col">
+                <div class="signal-text-top" id="text-xiu">XỈU</div>
+                <div id="lamp-xiu" class="signal-lamp"></div>
             </div>
         </div>
-        <div class="signal-col">
-            <div class="signal-text-top" id="text-xiu">XỈU</div>
-            <div id="lamp-xiu" class="signal-lamp"></div>
-        </div>
-    </div>
-    <div class="msg-container">
-        <div id="ai-status" class="ai-msg">ĐANG KẾT NỐI...</div>
-        <div style="text-align:center"><div id="ai-conf" class="ai-msg">CONF --</div></div>
-        <div id="ai-detail" class="ai-msg"></div>
-    </div>
-</div>
-
-<div class="panel-grid">
-    <!-- VỐN -->
-    <div class="box-module" id="capital-panel">
-        <h3><i class="fas fa-coins"></i> QUẢN LÝ VỐN TỰ ĐỘNG</h3>
-        <div class="capital-input-group">
-            <label>Vốn Hiện Tại (VNĐ):</label>
-            <input type="number" id="input-capital" value="200000" placeholder="VD: 200000">
-        </div>
-        <div class="capital-input-group">
-            <label>Lợi Nhuận Mục Tiêu (VNĐ):</label>
-            <input type="number" id="input-target" value="1000000" placeholder="VD: 1000000">
-        </div>
-        <div class="capital-input-group">
-            <label>Bộ Lọc Lệnh:</label>
-            <select id="input-mode">
-                <option value="safe">Siêu An Toàn (Chỉ đánh lệnh 90%+)</option>
-                <option value="fast">Đốt Cháy Giai Đoạn (Nhanh Lãi)</option>
-                <option value="all">Thực Chiến Bạo Chúa (Phiên nào cũng đánh)</option>
-            </select>
-        </div>
-        <div class="capital-suggest">
-            <div class="label">MỨC VÀO LỆNH TỐI ƯU</div>
-            <div class="amount" id="cap-amount">-- VNĐ</div>
-            <div class="msg go" id="cap-msg">CHỜ DỰ ĐOÁN...</div>
-            <div style="font-size:11px;color:#aaa;margin-top:5px;font-family:'Orbitron', sans-serif" id="cap-percent">-- % vốn</div>
+        <div class="msg-container">
+            <div id="ai-status" class="ai-msg">ĐANG KẾT NỐI...</div>
+            <div style="text-align:center">
+                <div id="ai-conf" class="ai-msg">CONF --</div>
+            </div>
+            <div id="ai-detail" class="ai-msg"></div>
         </div>
     </div>
 
-    <!-- STATS -->
-    <div class="box-module">
-        <h3><i class="fas fa-database"></i> DATA CENTER</h3>
-        <div class="stats-row"><span>Tỉ Lệ Thắng Lệnh:</span><span id="stat-accuracy" style="color:#0f0">--</span></div>
-        <div class="stats-row"><span>Lệnh Đúng/Tổng:</span><span id="stat-correct">--</span></div>
-        <div class="stats-row"><span>Log RAM Tích Lũy:</span><span id="stat-history">--</span></div>
-        <div class="stats-row"><span>Tín Hiệu Cuối:</span><span id="stat-updated">--</span></div>
-    </div>
+    <div class="panel-grid">
+        <!-- VỐN -->
+        <div class="box-module" id="capital-panel">
+            <h3><i class="fas fa-coins"></i> QUẢN LÝ VỐN TỰ ĐỘNG</h3>
+            <div class="capital-input-group">
+                <label>Vốn Hiện Tại (VNĐ):</label>
+                <input type="number" id="input-capital" value="200000" placeholder="VD: 200000">
+            </div>
+            <div class="capital-input-group">
+                <label>Lợi Nhuận Mục Tiêu (VNĐ):</label>
+                <input type="number" id="input-target" value="1000000" placeholder="VD: 1000000">
+            </div>
+            <div class="capital-input-group">
+                <label>Bộ Lọc Lệnh:</label>
+                <select id="input-mode">
+                    <option value="safe">Siêu An Toàn (Chỉ đánh lệnh 90%+)</option>
+                    <option value="fast">Đốt Cháy Giai Đoạn (Nhanh Lãi)</option>
+                    <option value="all">Thực Chiến Bạo Chúa (Phiên nào cũng đánh)</option>
+                </select>
+            </div>
+            <div class="capital-suggest">
+                <div class="label">MỨC VÀO LỆNH TỐI ƯU</div>
+                <div class="amount" id="cap-amount">-- VNĐ</div>
+                <div class="msg go" id="cap-msg">CHỜ DỰ ĐOÁN...</div>
+                <div style="font-size:11px;color:#aaa;margin-top:5px;font-family:'Orbitron', sans-serif"
+                    id="cap-percent">-- % vốn</div>
+            </div>
+        </div>
 
-    <!-- ENDGAME SIMULATION -->
-    <div class="box-module">
-        <h3><i class="fas fa-biohazard"></i> SỔ XUYÊN THỦNG TẤT TAY</h3>
-        <div class="stats-row"><span>Log Lệnh Tất Tay:</span><span id="stat-eg-count" style="color:#ffaa00">-- Lệnh</span></div>
-        <div class="stats-row"><span>Tỉ Lệ Thắng Lệnh Bão:</span><span id="stat-eg-acc" style="color:#0f0">--</span></div>
-        <div style="background:rgba(255,0,0,0.1);border:1px dashed #ff0000;padding:10px;border-radius:10px;margin-top:10px;text-align:center">
-            <div style="font-size:11px;color:#aaa;margin-bottom:5px">MÔ PHỎNG LỜI LÃI (Dựa trên vốn hiện tại gốc)</div>
-            <div id="stat-eg-profit" style="font-size:20px;font-weight:900;color:#0f0;font-family:'Orbitron', sans-serif">-- VNĐ</div>
+        <!-- STATS -->
+        <div class="box-module">
+            <h3><i class="fas fa-database"></i> DATA CENTER</h3>
+            <div class="stats-row"><span>Tỉ Lệ Thắng Lệnh:</span><span id="stat-accuracy" style="color:#0f0">--</span>
+            </div>
+            <div class="stats-row"><span>Lệnh Đúng/Tổng:</span><span id="stat-correct">--</span></div>
+            <div class="stats-row"><span>Log RAM Tích Lũy:</span><span id="stat-history">--</span></div>
+            <div class="stats-row"><span>Tín Hiệu Cuối:</span><span id="stat-updated">--</span></div>
+        </div>
+
+        <!-- ENDGAME SIMULATION -->
+        <div class="box-module">
+            <h3><i class="fas fa-biohazard"></i> SỔ XUYÊN THỦNG TẤT TAY</h3>
+            <div class="stats-row"><span>Log Lệnh Tất Tay:</span><span id="stat-eg-count" style="color:#ffaa00">--
+                    Lệnh</span></div>
+            <div class="stats-row"><span>Tỉ Lệ Thắng Lệnh Bão:</span><span id="stat-eg-acc" style="color:#0f0">--</span>
+            </div>
+            <div
+                style="background:rgba(255,0,0,0.1);border:1px dashed #ff0000;padding:10px;border-radius:10px;margin-top:10px;text-align:center">
+                <div style="font-size:11px;color:#aaa;margin-bottom:5px">MÔ PHỎNG LỜI LÃI (Dựa trên vốn hiện tại gốc)
+                </div>
+                <div id="stat-eg-profit"
+                    style="font-size:20px;font-weight:900;color:#0f0;font-family:'Orbitron', sans-serif">-- VNĐ</div>
+            </div>
+        </div>
+
+
+
+        <!-- HISTORY -->
+        <div class="box-module history-box" style="grid-column: 1 / -1; max-width: 100%;">
+            <h3><i class="fas fa-history"></i> LỊCH SỬ AI CHỐT</h3>
+            <div id="history-list"></div>
+        </div>
+
+        <!-- SỔ KẾ TOÁN CƯỢC CHI TIẾT -->
+        <div class="box-module" style="grid-column: 1 / -1; max-width: 100%;">
+            <h3 style="color:#ffaa00;text-align:center"><i class="fas fa-book"></i> SỔ KẾ TOÁN CƯỢC THỰC CHIẾN (LIVE)
+            </h3>
+            <p style="font-size:11px;color:#666;text-align:center;margin:0 0 10px 0">Mô phỏng từng ván dựa trên lịch sử
+                AI đã chốt &bull; Vốn tính tự động theo ô "Vốn Hiện Tại" bên trên</p>
+            <div style="max-height:400px; overflow-y:auto; border:1px solid #333; border-radius:8px;">
+                <table style="width:100%; border-collapse:collapse; font-size:12px; text-align:center; color:#ccc;">
+                    <thead style="background:#111; color:#0ff; position:sticky; top:0; z-index:1;">
+                        <tr>
+                            <th style="padding:8px;border-bottom:2px solid #0ff">Phiên</th>
+                            <th style="padding:8px;border-bottom:2px solid #0ff">AI Báo</th>
+                            <th style="padding:8px;border-bottom:2px solid #0ff">Conf%</th>
+                            <th style="padding:8px;border-bottom:2px solid #0ff">Chiến Thuật</th>
+                            <th style="padding:8px;border-bottom:2px solid #0ff">Tiền Cược</th>
+                            <th style="padding:8px;border-bottom:2px solid #0ff">KQ Thật</th>
+                            <th style="padding:8px;border-bottom:2px solid #0ff">Đúng/Sai</th>
+                            <th style="padding:8px;border-bottom:2px solid #0ff">Lãi/Lỗ</th>
+                            <th style="padding:8px;border-bottom:2px solid #0ff">Số Dư Ví</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ledger-body">
+                        <tr>
+                            <td colspan="9" style="padding:20px;color:#666">Đang đợi dữ liệu đủ 50 Data vòng lọc...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div
+                style="display:flex;justify-content:space-between;margin-top:10px;padding:8px;background:#111;border-radius:8px;font-size:13px;">
+                <span>Tổng Lệnh: <strong id="ledger-total" style="color:#0ff">0</strong></span>
+                <span>Thắng: <strong id="ledger-wins" style="color:#0f0">0</strong> | Thua: <strong id="ledger-losses"
+                        style="color:#f00">0</strong></span>
+                <span>Lãi Ròng: <strong id="ledger-profit" style="color:#0f0">0đ</strong></span>
+            </div>
         </div>
     </div>
 
+    <br><br>
 
+    <script>
+        let currentGame = 'lc79_hu';
+        let lastPhien = 0;
+        function apiUrl(path) { return path; }
 
-    <!-- HISTORY -->
-    <div class="box-module history-box" style="grid-column: 1 / -1; max-width: 100%;">
-        <h3><i class="fas fa-history"></i> LỊCH SỬ AI CHỐT</h3>
-        <div id="history-list"></div>
-    </div>
+        // CAPITAL MANAGEMENT QUÁI VẬT (DYNAMIC KELLY & FIBONACCI RECOVERY)
+        const CAPITAL = {
+            current: 200000,
+            target: 1000000,
+            mode: 'safe',
+            sync: () => {
+                const c = document.getElementById('input-capital');
+                const t = document.getElementById('input-target');
+                const m = document.getElementById('input-mode');
+                if (c) CAPITAL.current = parseInt(c.value) || 200000;
+                if (t) CAPITAL.target = parseInt(t.value) || 1000000;
+                if (m) CAPITAL.mode = m.value;
+            },
+            calculateBet: (confidence, isEndgame, historyLog) => {
+                if (CAPITAL.current >= CAPITAL.target) return { amount: 0, percent: 0, msg: "ĐÃ ĐẠT TARGET LÃI 🏆", type: 'done' };
+                const BASE_UNIT = Math.floor(CAPITAL.current * 0.01);
+                let unitMultiplier = 0;
+                let isRecovery = false;
 
-    <!-- SỔ KẾ TOÁN CƯỢC CHI TIẾT -->
-    <div class="box-module" style="grid-column: 1 / -1; max-width: 100%;">
-        <h3 style="color:#ffaa00;text-align:center"><i class="fas fa-book"></i> SỔ KẾ TOÁN CƯỢC THỰC CHIẾN (LIVE)</h3>
-        <p style="font-size:11px;color:#666;text-align:center;margin:0 0 10px 0">Mô phỏng từng ván dựa trên lịch sử AI đã chốt &bull; Vốn tính tự động theo ô "Vốn Hiện Tại" bên trên</p>
-        <div style="max-height:400px; overflow-y:auto; border:1px solid #333; border-radius:8px;">
-            <table style="width:100%; border-collapse:collapse; font-size:12px; text-align:center; color:#ccc;">
-                <thead style="background:#111; color:#0ff; position:sticky; top:0; z-index:1;">
-                    <tr>
-                        <th style="padding:8px;border-bottom:2px solid #0ff">Phiên</th>
-                        <th style="padding:8px;border-bottom:2px solid #0ff">AI Báo</th>
-                        <th style="padding:8px;border-bottom:2px solid #0ff">Conf%</th>
-                        <th style="padding:8px;border-bottom:2px solid #0ff">Chiến Thuật</th>
-                        <th style="padding:8px;border-bottom:2px solid #0ff">Tiền Cược</th>
-                        <th style="padding:8px;border-bottom:2px solid #0ff">KQ Thật</th>
-                        <th style="padding:8px;border-bottom:2px solid #0ff">Đúng/Sai</th>
-                        <th style="padding:8px;border-bottom:2px solid #0ff">Lãi/Lỗ</th>
-                        <th style="padding:8px;border-bottom:2px solid #0ff">Số Dư Ví</th>
-                    </tr>
-                </thead>
-                <tbody id="ledger-body">
-                    <tr><td colspan="9" style="padding:20px;color:#666">Đang đợi dữ liệu đủ 50 Data vòng lọc...</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <div style="display:flex;justify-content:space-between;margin-top:10px;padding:8px;background:#111;border-radius:8px;font-size:13px;">
-            <span>Tổng Lệnh: <strong id="ledger-total" style="color:#0ff">0</strong></span>
-            <span>Thắng: <strong id="ledger-wins" style="color:#0f0">0</strong> | Thua: <strong id="ledger-losses" style="color:#f00">0</strong></span>
-            <span>Lãi Ròng: <strong id="ledger-profit" style="color:#0f0">0đ</strong></span>
-        </div>
-    </div>
-</div>
+                // KIỂM TRA LỜI NGUYỀN CỦA ENDGAME TRƯỚC ĐÓ
+                let lastEndgameFailed = false;
+                if (historyLog && historyLog.length > 0) {
+                    const recentEndgames = historyLog.filter(h => h.adaptive && h.adaptive.recommendation && h.adaptive.recommendation.includes('TẤT TAY'));
+                    if (recentEndgames.length > 0 && recentEndgames[0].correct === false) {
+                        lastEndgameFailed = true;
+                    }
+                }
 
-<br><br>
+                // TẦNG 1: QUYẾT ĐỊNH XUỐNG XÁC VỚI ENDGAME (TÍNH BẰNG ĐƠN VỊ CƯỢC / UNIT)
+                if (isEndgame) {
+                    if (lastEndgameFailed) {
+                        unitMultiplier = 15; // Đại bác góc x15
+                        isRecovery = true;
+                    } else {
+                        unitMultiplier = 5; // X5 Unit an toàn
+                    }
+                }
+                // TẦNG 2: THUẬT TOÁN NUÔI DATA CÒ CON
+                else if (CAPITAL.mode === 'safe') {
+                    if (confidence >= 95) unitMultiplier = 1;
+                    else if (confidence >= 85) unitMultiplier = 0.5;
+                    else unitMultiplier = 0;
+                }
+                else if (CAPITAL.mode === 'all') {
+                    // Bạo chúa: Phiên nào cũng rải Base Unit
+                    if (confidence >= 95) unitMultiplier = 3;
+                    else if (confidence >= 85) unitMultiplier = 1;
+                    else if (confidence >= 75) unitMultiplier = 0.5;
+                    else unitMultiplier = 0.2; // dằn mặt nhà cái bằng 0.2 Unit
+                }
+                else {
+                    // Chế độ MÌ TÔM / Đốt Cháy (Fast Mode)
+                    if (confidence >= 95) unitMultiplier = 3;
+                    else if (confidence >= 85) unitMultiplier = 2;
+                    else if (confidence >= 75) unitMultiplier = 1;
+                    else unitMultiplier = 0;
+                }
 
-<script>
-let currentGame = 'lc79_hu';
-let lastPhien = 0;
-function apiUrl(path) { return path; }
+                let amount = Math.floor(BASE_UNIT * unitMultiplier);
+                if (amount > CAPITAL.current) amount = CAPITAL.current;
+                let msg = "";
 
-// CAPITAL MANAGEMENT QUÁI VẬT (DYNAMIC KELLY & FIBONACCI RECOVERY)
-const CAPITAL = {
-    current: 200000,
-    target: 1000000,
-    mode: 'safe',
-    sync: () => {
-        const c = document.getElementById('input-capital');
-        const t = document.getElementById('input-target');
-        const m = document.getElementById('input-mode');
-        if (c) CAPITAL.current = parseInt(c.value) || 200000;
-        if (t) CAPITAL.target = parseInt(t.value) || 1000000;
-        if (m) CAPITAL.mode = m.value;
-    },
-    calculateBet: (confidence, isEndgame, historyLog) => {
-        if (CAPITAL.current >= CAPITAL.target) return { amount: 0, percent: 0, msg: "ĐÃ ĐẠT TARGET LÃI 🏆", type: 'done' };
-        const BASE_UNIT = Math.floor(CAPITAL.current * 0.01);
-        let unitMultiplier = 0;
-        let isRecovery = false;
-        
-        // KIỂM TRA LỜI NGUYỀN CỦA ENDGAME TRƯỚC ĐÓ
-        let lastEndgameFailed = false;
-        if (historyLog && historyLog.length > 0) {
-             const recentEndgames = historyLog.filter(h => h.adaptive && h.adaptive.recommendation && h.adaptive.recommendation.includes('TẤT TAY'));
-             if (recentEndgames.length > 0 && recentEndgames[0].correct === false) {
-                  lastEndgameFailed = true;
-             }
-        }
+                if (isEndgame) {
+                    if (isRecovery) msg = "ĐẠI BÁC PHỤC THÙ - GẤP MÁU ÉP CHẾT CẦU !!! ☢️";
+                    else msg = "SIÊU BÃO KIẾM LÃI - XUỐNG 20% VỐN TẤT TAY !!! 🚨";
+                } else {
+                    msg = amount > 0 ? "BẮN TỈA - LƯỚT SÓNG NHẶT TIỀN LẺ 🔫" : "NÍN THỞ - CHỜ CẦU ĐẸP";
+                }
 
-        // TẦNG 1: QUYẾT ĐỊNH XUỐNG XÁC VỚI ENDGAME (TÍNH BẰNG ĐƠN VỊ CƯỢC / UNIT)
-        if (isEndgame) {
-            if (lastEndgameFailed) {
-                unitMultiplier = 15; // Đại bác góc x15
-                isRecovery = true;
-            } else {
-                unitMultiplier = 5; // X5 Unit an toàn
-            }
-        } 
-        // TẦNG 2: THUẬT TOÁN NUÔI DATA CÒ CON
-        else if (CAPITAL.mode === 'safe') {
-            if (confidence >= 95) unitMultiplier = 1;
-            else if (confidence >= 85) unitMultiplier = 0.5;
-            else unitMultiplier = 0;
-        } 
-        else if (CAPITAL.mode === 'all') {
-            // Bạo chúa: Phiên nào cũng rải Base Unit
-            if (confidence >= 95) unitMultiplier = 3;
-            else if (confidence >= 85) unitMultiplier = 1;
-            else if (confidence >= 75) unitMultiplier = 0.5;
-            else unitMultiplier = 0.2; // dằn mặt nhà cái bằng 0.2 Unit
-        }
-        else {
-            // Chế độ MÌ TÔM / Đốt Cháy (Fast Mode)
-            if (confidence >= 95) unitMultiplier = 3;
-            else if (confidence >= 85) unitMultiplier = 2;
-            else if (confidence >= 75) unitMultiplier = 1;
-            else unitMultiplier = 0;
-        }
-
-        let amount = Math.floor(BASE_UNIT * unitMultiplier);
-        if (amount > CAPITAL.current) amount = CAPITAL.current;
-        let msg = "";
-        
-        if (isEndgame) {
-            if (isRecovery) msg = "ĐẠI BÁC PHỤC THÙ - GẤP MÁU ÉP CHẾT CẦU !!! ☢️";
-            else msg = "SIÊU BÃO KIẾM LÃI - XUỐNG 20% VỐN TẤT TAY !!! 🚨";
-        } else {
-            msg = amount > 0 ? "BẮN TỈA - LƯỚT SÓNG NHẶT TIỀN LẺ 🔫" : "NÍN THỞ - CHỜ CẦU ĐẸP";
-        }
-        
-        return {
-            amount, percent: unitMultiplier,
-            msg: msg,
-            type: amount > 0 ? 'go' : 'skip',
-            isRecovery
+                return {
+                    amount, percent: unitMultiplier,
+                    msg: msg,
+                    type: amount > 0 ? 'go' : 'skip',
+                    isRecovery
+                };
+            },
+            formatMoney: (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         };
-    },
-    formatMoney: (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-};
 
-['input-capital','input-target','input-mode'].forEach(id => {
-    document.getElementById(id).addEventListener('change', CAPITAL.sync);
-    document.getElementById(id).addEventListener('input', CAPITAL.sync);
-});
+        ['input-capital', 'input-target', 'input-mode'].forEach(id => {
+            document.getElementById(id).addEventListener('change', CAPITAL.sync);
+            document.getElementById(id).addEventListener('input', CAPITAL.sync);
+        });
 
-function updateCapitalUI(confidence, isEndgame, historyLog) {
-    CAPITAL.sync();
-    const r = CAPITAL.calculateBet(confidence || 0, isEndgame, historyLog);
-    document.getElementById('cap-amount').innerText = r.amount === 0 ? '-- VNĐ' : CAPITAL.formatMoney(r.amount) + ' VNĐ';
-    const msgEl = document.getElementById('cap-msg');
-    
-    // Đổi màu cực gắt cho kèo Phục thù
-    if (r.isRecovery) {
-         msgEl.style.color = '#ffaa00'; 
-         msgEl.style.textShadow = '0 0 15px #ffaa00';
-         msgEl.style.fontSize = '18px';
-    } else {
-         msgEl.style.color = ''; msgEl.style.textShadow = ''; msgEl.style.fontSize = '';
-    }
-    
-    msgEl.innerText = r.msg;
-    msgEl.className = 'msg ' + r.type;
-    document.getElementById('cap-percent').innerText = r.amount === 0 ? 'Phòng thủ 100% tài khoản' : `Chiến Thuật: Nhồi X${r.percent} Unit Cơ Sở`;
-}
+        function updateCapitalUI(confidence, isEndgame, historyLog) {
+            CAPITAL.sync();
+            const r = CAPITAL.calculateBet(confidence || 0, isEndgame, historyLog);
+            document.getElementById('cap-amount').innerText = r.amount === 0 ? '-- VNĐ' : CAPITAL.formatMoney(r.amount) + ' VNĐ';
+            const msgEl = document.getElementById('cap-msg');
 
-function switchGame(gameId) {
-    currentGame = gameId;
-    document.querySelectorAll('.tab-btn').forEach((b,i) => {
-        b.classList.toggle('active', (i===0&&gameId==='lc79_hu')||(i===1&&gameId==='lc79_md5'));
-    });
-    lastPhien = 0;
-    resetUI();
-    fetchData();
-}
-
-function resetUI() {
-    document.getElementById('lamp-tai').className = 'signal-lamp';
-    document.getElementById('lamp-xiu').className = 'signal-lamp';
-    document.getElementById('text-tai').className = 'signal-text-top';
-    document.getElementById('text-xiu').className = 'signal-text-top';
-    document.getElementById('ai-center-box').className = 'ai-logo-wrap';
-    document.getElementById('ai-status').innerText = 'AI ĐANG PHÂN TÍCH...';
-    document.getElementById('ai-status').style.color = '#00ffff';
-    document.getElementById('ai-conf').innerText = 'CONF --';
-    document.getElementById('ai-detail').innerHTML = '';
-    document.body.classList.remove('endgame-active'); // xoá đỏ máu
-}
-
-async function fetchData() {
-    try {
-        const [predRes, histRes] = await Promise.all([
-            fetch(apiUrl(`/predict/${currentGame}`)),
-            fetch(apiUrl(`/history/${currentGame}`))
-        ]);
-        const pred = await predRes.json();
-        const hist = await histRes.json();
-
-        document.getElementById('server-status').innerHTML = '✅ CONNECTED SECURELY <br> Trích xuất dữ liệu lượng tử 3s/lần';
-
-        document.getElementById('ai-phien').innerText = `PHIÊN #${pred.phien}`;
-
-        if (pred.lastTotal) {
-            const isTai = pred.lastTotal > 10;
-            document.getElementById('current-dice-val').innerHTML =
-                `<span style="color:${isTai?'#0f0':'#f00'}">${pred.lastTotal} - ${isTai?'TÀI':'XỈU'}</span>`;
-        }
-
-        // Kiểm tra ENDGAME
-        const isEndgame = pred.adaptive && pred.adaptive.recommendation && pred.adaptive.recommendation.includes('TẤT TAY');
-        if (isEndgame) {
-            document.body.classList.add('endgame-active');
-        } else {
-            document.body.classList.remove('endgame-active');
-        }
-
-        if (pred.prediction) {
-            const isTai = pred.prediction === 'TAI';
-            document.getElementById('ai-status').innerText = pred.logic || 'AI ĐÃ DỰ ĐOÁN';
-            
-            if (!isEndgame) {
-                 document.getElementById('ai-status').style.color = pred.confidence >= 80 ? '#0f0' : '#00ffff';
+            // Đổi màu cực gắt cho kèo Phục thù
+            if (r.isRecovery) {
+                msgEl.style.color = '#ffaa00';
+                msgEl.style.textShadow = '0 0 15px #ffaa00';
+                msgEl.style.fontSize = '18px';
+            } else {
+                msgEl.style.color = ''; msgEl.style.textShadow = ''; msgEl.style.fontSize = '';
             }
 
-            document.getElementById('ai-conf').innerText = isEndgame ? `[ CONFIDENCE MAX 99% ]` : `[ CONFIDENCE ${pred.confidence}% ]`;
+            msgEl.innerText = r.msg;
+            msgEl.className = 'msg ' + r.type;
+            document.getElementById('cap-percent').innerText = r.amount === 0 ? 'Phòng thủ 100% tài khoản' : `Chiến Thuật: Nhồi X${r.percent} Unit Cơ Sở`;
+        }
 
-            document.getElementById(`lamp-${isTai?'tai':'xiu'}`).className = `signal-lamp active-${isTai?'tai':'xiu'}`;
-            document.getElementById(`text-${isTai?'tai':'xiu'}`).className = `signal-text-top active-${isTai?'tai':'xiu'}-text`;
-            document.getElementById('ai-center-box').className = `ai-logo-wrap center-blink-${isTai?'tai':'xiu'}`;
+        function switchGame(gameId) {
+            currentGame = gameId;
+            document.querySelectorAll('.tab-btn').forEach((b, i) => {
+                b.classList.toggle('active', (i === 0 && gameId === 'lc79_hu') || (i === 1 && gameId === 'lc79_md5'));
+            });
+            lastPhien = 0;
+            resetUI();
+            fetchData();
+        }
 
-            const taiPct = isTai ? pred.confidence : 100 - pred.confidence;
-            const xiuPct = !isTai ? pred.confidence : 100 - pred.confidence;
-            
-            let reversalHtml = '';
-            if (pred.isReversal && pred.reversalFrom) {
-                reversalHtml = `<div class="reversal-flash-box">
+        function resetUI() {
+            document.getElementById('lamp-tai').className = 'signal-lamp';
+            document.getElementById('lamp-xiu').className = 'signal-lamp';
+            document.getElementById('text-tai').className = 'signal-text-top';
+            document.getElementById('text-xiu').className = 'signal-text-top';
+            document.getElementById('ai-center-box').className = 'ai-logo-wrap';
+            document.getElementById('ai-status').innerText = 'AI ĐANG PHÂN TÍCH...';
+            document.getElementById('ai-status').style.color = '#00ffff';
+            document.getElementById('ai-conf').innerText = 'CONF --';
+            document.getElementById('ai-detail').innerHTML = '';
+            document.body.classList.remove('endgame-active'); // xoá đỏ máu
+        }
+
+        async function fetchData() {
+            try {
+                const [predRes, histRes] = await Promise.all([
+                    fetch(apiUrl(`/predict/${currentGame}`)),
+                    fetch(apiUrl(`/history/${currentGame}`))
+                ]);
+                const pred = await predRes.json();
+                const hist = await histRes.json();
+
+                document.getElementById('server-status').innerHTML = '✅ CONNECTED SECURELY <br> Trích xuất dữ liệu lượng tử 3s/lần';
+
+                document.getElementById('ai-phien').innerText = `PHIÊN #${pred.phien}`;
+
+                if (pred.lastTotal) {
+                    const isTai = pred.lastTotal > 10;
+                    document.getElementById('current-dice-val').innerHTML =
+                        `<span style="color:${isTai ? '#0f0' : '#f00'}">${pred.lastTotal} - ${isTai ? 'TÀI' : 'XỈU'}</span>`;
+                }
+
+                // Kiểm tra ENDGAME
+                const isEndgame = pred.adaptive && pred.adaptive.recommendation && pred.adaptive.recommendation.includes('TẤT TAY');
+                if (isEndgame) {
+                    document.body.classList.add('endgame-active');
+                } else {
+                    document.body.classList.remove('endgame-active');
+                }
+
+                if (pred.prediction) {
+                    const isTai = pred.prediction === 'TAI';
+                    document.getElementById('ai-status').innerText = pred.logic || 'AI ĐÃ DỰ ĐOÁN';
+
+                    if (!isEndgame) {
+                        document.getElementById('ai-status').style.color = pred.confidence >= 80 ? '#0f0' : '#00ffff';
+                    }
+
+                    document.getElementById('ai-conf').innerText = isEndgame ? `[ CONFIDENCE MAX 99% ]` : `[ CONFIDENCE ${pred.confidence}% ]`;
+
+                    document.getElementById(`lamp-${isTai ? 'tai' : 'xiu'}`).className = `signal-lamp active-${isTai ? 'tai' : 'xiu'}`;
+                    document.getElementById(`text-${isTai ? 'tai' : 'xiu'}`).className = `signal-text-top active-${isTai ? 'tai' : 'xiu'}-text`;
+                    document.getElementById('ai-center-box').className = `ai-logo-wrap center-blink-${isTai ? 'tai' : 'xiu'}`;
+
+                    const taiPct = isTai ? pred.confidence : 100 - pred.confidence;
+                    const xiuPct = !isTai ? pred.confidence : 100 - pred.confidence;
+
+                    let reversalHtml = '';
+                    if (pred.isReversal && pred.reversalFrom) {
+                        reversalHtml = `<div class="reversal-flash-box">
                     <span>⚠️ AI ĐANG BẺ TỪ</span>
-                    <span style="color:${isTai?'#f00':'#0f0'}">${pred.reversalFrom}</span>
+                    <span style="color:${isTai ? '#f00' : '#0f0'}">${pred.reversalFrom}</span>
                     <span>SANG</span>
-                    <span style="color:${isTai?'#0f0':'#f00'};animation:nhayDaoKq 0.2s infinite">${isTai?'TÀI':'XỈU'}</span> ⚠️
+                    <span style="color:${isTai ? '#0f0' : '#f00'};animation:nhayDaoKq 0.2s infinite">${isTai ? 'TÀI' : 'XỈU'}</span> ⚠️
                 </div>`;
-            }
-            document.getElementById('ai-detail').innerHTML = `
+                    }
+                    document.getElementById('ai-detail').innerHTML = `
                 <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;font-weight:bold;font-family:'Orbitron'">
-                    <span>TỈ LỆ TÀI: <b style="color:#0f0">${isEndgame?'99':taiPct}%</b></span>
-                    <span>TỈ LỆ XỈU: <b style="color:#f00">${isEndgame?'1':xiuPct}%</b></span>
+                    <span>TỈ LỆ TÀI: <b style="color:#0f0">${isEndgame ? '99' : taiPct}%</b></span>
+                    <span>TỈ LỆ XỈU: <b style="color:#f00">${isEndgame ? '1' : xiuPct}%</b></span>
                 </div>
                 ${reversalHtml}
                 <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:8px;text-align:center;margin-top:10px;">
@@ -559,174 +1227,191 @@ async function fetchData() {
                     <div style="color:#00ffff;font-weight:900;font-size:18px;letter-spacing:4px;font-family:'Orbitron'">${getExpectedNums(pred.lastTotal, isTai)}</div>
                 </div>`;
 
-            const isReady = (pred.historyCount >= 50);
-            if (!isReady) {
-                document.getElementById('capital-panel').classList.add('locked');
-            } else {
-                document.getElementById('capital-panel').classList.remove('locked');
-                updateCapitalUI(pred.confidence, isEndgame, hist.history);
-            }
-        }
+                    const isReady = (pred.historyCount >= 50);
+                    if (!isReady) {
+                        document.getElementById('capital-panel').classList.add('locked');
+                    } else {
+                        document.getElementById('capital-panel').classList.remove('locked');
+                        updateCapitalUI(pred.confidence, isEndgame, hist.history);
+                    }
 
-        // ====== SỔ KẾ TOÁN CƯỢC TOÀN BỘ (TẤT CẢ CÁC VÁN) ======
-        const allCompleted = hist.history ? hist.history.filter(x => x.correct !== null) : [];
-        const chronological = [...allCompleted].reverse(); // Cũ -> Mới
-
-        let baseCapital = parseInt(document.getElementById('input-capital')?.value) || 200000;
-        let BASE_UNIT = Math.floor(baseCapital * 0.01);
-        let simBalance = baseCapital;
-        let egWins = 0, egLoss = 0;
-        let totalBetCount = 0, totalWinCount = 0, totalLossCount = 0;
-        let wasLastEndgameFailed = false;
-        let ledgerRows = [];
-
-        chronological.forEach(h => {
-            const isEg = h.adaptive && h.adaptive.recommendation && h.adaptive.recommendation.includes('TẤT TAY');
-            const conf = h.confidence || 0;
-            let unitMul = 0;
-            let strategy = '';
-
-            if (isEg) {
-                unitMul = wasLastEndgameFailed ? 15 : 5;
-                strategy = wasLastEndgameFailed ? 'ĐẠI BÁC X15 ☢️' : 'ENDGAME X5 💥';
-            } else {
-                // Sử dụng cùng logic mode trên UI
-                const mode = document.getElementById('input-mode')?.value || 'all';
-                if (mode === 'safe') {
-                    if (conf >= 95) { unitMul = 1; strategy = 'AN TOÀN X1'; }
-                    else if (conf >= 85) { unitMul = 0.5; strategy = 'AN TOÀN X0.5'; }
-                    else { unitMul = 0; strategy = 'BỎ QUA'; }
-                } else if (mode === 'all') {
-                    if (conf >= 95) { unitMul = 3; strategy = 'CỨNG X3'; }
-                    else if (conf >= 85) { unitMul = 1; strategy = 'ỔN X1'; }
-                    else if (conf >= 75) { unitMul = 0.5; strategy = 'DÒ X0.5'; }
-                    else { unitMul = 0.2; strategy = 'MỒI X0.2'; }
-                } else {
-                    if (conf >= 95) { unitMul = 3; strategy = 'NHANH X3'; }
-                    else if (conf >= 85) { unitMul = 2; strategy = 'NHANH X2'; }
-                    else if (conf >= 75) { unitMul = 1; strategy = 'NHANH X1'; }
-                    else { unitMul = 0; strategy = 'BỎ QUA'; }
+                    // ENDGAME ALERT BANNER - Hiện rõ ràng tiền đặt khi có tín hiệu
+                    const egAlert = document.getElementById('endgame-alert');
+                    if (isEndgame && isReady) {
+                        CAPITAL.sync();
+                        const egBet = CAPITAL.calculateBet(pred.confidence, true, hist.history);
+                        const pickLabel = document.getElementById('eg-pick-label');
+                        pickLabel.innerText = isTai ? 'TÀI' : 'XỈU';
+                        pickLabel.className = 'eg-pick ' + (isTai ? 'tai' : 'xiu');
+                        document.getElementById('eg-bet-amount').innerText = 
+                            'ĐẶT NGAY: ' + CAPITAL.formatMoney(egBet.amount) + ' VNĐ' + 
+                            (egBet.isRecovery ? ' (GẤP THẾP PHỤC THÙ!)' : '');
+                        egAlert.classList.add('visible');
+                    } else {
+                        egAlert.classList.remove('visible');
+                    }
                 }
-            }
 
-            let betAmount = Math.floor(BASE_UNIT * unitMul);
-            if (betAmount > simBalance) betAmount = simBalance;
-            if (simBalance <= 0) betAmount = 0;
+                // ====== SỔ KẾ TOÁN CƯỢC TOÀN BỘ (TẤT CẢ CÁC VÁN) ======
+                const allCompleted = hist.history ? hist.history.filter(x => x.correct !== null) : [];
+                const chronological = [...allCompleted].reverse(); // Cũ -> Mới
 
-            // Tính kết quả thực tế từ ván đó
-            const actualResult = h.correct ? h.prediction : (h.prediction === 'TAI' ? 'XIU' : 'TAI');
-            let pl = 0;
-            let wlText = '';
-            let wlColor = '#aaa';
+                let baseCapital = parseInt(document.getElementById('input-capital')?.value) || 200000;
+                let BASE_UNIT = Math.floor(baseCapital * 0.01);
+                let simBalance = baseCapital;
+                let egWins = 0, egLoss = 0;
+                let totalBetCount = 0, totalWinCount = 0, totalLossCount = 0;
+                let wasLastEndgameFailed = false;
+                let ledgerRows = [];
 
-            if (betAmount > 0) {
-                totalBetCount++;
-                if (h.correct) {
-                    pl = Math.floor(betAmount * 0.98); // trừ 2% phế
-                    simBalance += pl;
-                    totalWinCount++;
-                    wlText = '✅ THẮNG';
-                    wlColor = '#0f0';
-                    if (isEg) { egWins++; wasLastEndgameFailed = false; }
-                } else {
-                    pl = -betAmount;
-                    simBalance -= betAmount;
-                    totalLossCount++;
-                    wlText = '❌ THUA';
-                    wlColor = '#f00';
-                    if (isEg) { egLoss++; wasLastEndgameFailed = true; }
-                }
-            } else {
-                wlText = '⏸️ BỎ QUA';
-                wlColor = '#555';
-            }
+                chronological.forEach(h => {
+                    const isEg = h.adaptive && h.adaptive.recommendation && h.adaptive.recommendation.includes('TẤT TAY');
+                    const conf = h.confidence || 0;
+                    let unitMul = 0;
+                    let strategy = '';
 
-            ledgerRows.push(`
-            <tr style="border-bottom:1px solid #1a1a1a;background:${isEg?'rgba(255,165,0,0.08)':(betAmount===0?'transparent':'transparent')}">
+                    if (isEg) {
+                        unitMul = wasLastEndgameFailed ? 15 : 5;
+                        strategy = wasLastEndgameFailed ? 'ĐẠI BÁC X15 ☢️' : 'ENDGAME X5 💥';
+                    } else {
+                        // Sử dụng cùng logic mode trên UI
+                        const mode = document.getElementById('input-mode')?.value || 'all';
+                        if (mode === 'safe') {
+                            if (conf >= 95) { unitMul = 1; strategy = 'AN TOÀN X1'; }
+                            else if (conf >= 85) { unitMul = 0.5; strategy = 'AN TOÀN X0.5'; }
+                            else { unitMul = 0; strategy = 'BỎ QUA'; }
+                        } else if (mode === 'all') {
+                            if (conf >= 95) { unitMul = 3; strategy = 'CỨNG X3'; }
+                            else if (conf >= 85) { unitMul = 1; strategy = 'ỔN X1'; }
+                            else if (conf >= 75) { unitMul = 0.5; strategy = 'DÒ X0.5'; }
+                            else { unitMul = 0.2; strategy = 'MỒI X0.2'; }
+                        } else {
+                            if (conf >= 95) { unitMul = 3; strategy = 'NHANH X3'; }
+                            else if (conf >= 85) { unitMul = 2; strategy = 'NHANH X2'; }
+                            else if (conf >= 75) { unitMul = 1; strategy = 'NHANH X1'; }
+                            else { unitMul = 0; strategy = 'BỎ QUA'; }
+                        }
+                    }
+
+                    let betAmount = Math.floor(BASE_UNIT * unitMul);
+                    if (betAmount > simBalance) betAmount = simBalance;
+                    if (simBalance <= 0) betAmount = 0;
+
+                    // Tính kết quả thực tế từ ván đó
+                    const actualResult = h.correct ? h.prediction : (h.prediction === 'TAI' ? 'XIU' : 'TAI');
+                    let pl = 0;
+                    let wlText = '';
+                    let wlColor = '#aaa';
+
+                    if (betAmount > 0) {
+                        totalBetCount++;
+                        if (h.correct) {
+                            pl = Math.floor(betAmount * 0.98); // trừ 2% phế
+                            simBalance += pl;
+                            totalWinCount++;
+                            wlText = '✅ THẮNG';
+                            wlColor = '#0f0';
+                            if (isEg) { egWins++; wasLastEndgameFailed = false; }
+                        } else {
+                            pl = -betAmount;
+                            simBalance -= betAmount;
+                            totalLossCount++;
+                            wlText = '❌ THUA';
+                            wlColor = '#f00';
+                            if (isEg) { egLoss++; wasLastEndgameFailed = true; }
+                        }
+                    } else {
+                        wlText = '⏸️ BỎ QUA';
+                        wlColor = '#555';
+                    }
+
+                    ledgerRows.push(`
+            <tr style="border-bottom:1px solid #1a1a1a;background:${isEg ? 'rgba(255,165,0,0.08)' : (betAmount === 0 ? 'transparent' : 'transparent')}">
                 <td style="padding:6px;color:#888">#${h.phien}</td>
-                <td style="color:${h.prediction==='TAI'?'#0f0':'#f0f'};font-weight:bold">${h.prediction}</td>
-                <td style="color:${conf>=85?'#0ff':'#666'}">${conf}%</td>
+                <td style="color:${h.prediction === 'TAI' ? '#0f0' : '#f0f'};font-weight:bold">${h.prediction}</td>
+                <td style="color:${conf >= 85 ? '#0ff' : '#666'}">${conf}%</td>
                 <td style="color:#ffaa00;font-size:11px">${strategy}</td>
-                <td style="color:#fff">${betAmount > 0 ? CAPITAL.formatMoney(betAmount)+'đ' : '--'}</td>
-                <td style="color:${actualResult==='TAI'?'#0f0':'#f0f'}">${actualResult}</td>
+                <td style="color:#fff">${betAmount > 0 ? CAPITAL.formatMoney(betAmount) + 'đ' : '--'}</td>
+                <td style="color:${actualResult === 'TAI' ? '#0f0' : '#f0f'}">${actualResult}</td>
                 <td style="color:${wlColor};font-weight:bold">${wlText}</td>
-                <td style="color:${pl>0?'#0f0':(pl<0?'#f00':'#555')};font-weight:bold">${pl>0?'+'+CAPITAL.formatMoney(pl):(pl<0?CAPITAL.formatMoney(pl):'--')}${pl!==0?'đ':''}</td>
+                <td style="color:${pl > 0 ? '#0f0' : (pl < 0 ? '#f00' : '#555')};font-weight:bold">${pl > 0 ? '+' + CAPITAL.formatMoney(pl) : (pl < 0 ? CAPITAL.formatMoney(pl) : '--')}${pl !== 0 ? 'đ' : ''}</td>
                 <td style="color:#0ff;font-weight:bold">${CAPITAL.formatMoney(simBalance)}đ</td>
             </tr>`);
-        });
+                });
 
-        // Render bảng (ván mới nhất ở trên)
-        if (ledgerRows.length > 0) {
-            document.getElementById('ledger-body').innerHTML = ledgerRows.reverse().join('');
-        }
+                // Render bảng (ván mới nhất ở trên)
+                if (ledgerRows.length > 0) {
+                    document.getElementById('ledger-body').innerHTML = ledgerRows.reverse().join('');
+                }
 
-        const totalProfit = simBalance - baseCapital;
-        document.getElementById('ledger-total').innerText = totalBetCount;
-        document.getElementById('ledger-wins').innerText = totalWinCount;
-        document.getElementById('ledger-losses').innerText = totalLossCount;
-        const profitEl = document.getElementById('ledger-profit');
-        profitEl.innerText = (totalProfit >= 0 ? '+' : '') + CAPITAL.formatMoney(totalProfit) + 'đ';
-        profitEl.style.color = totalProfit >= 0 ? '#0f0' : '#f00';
+                const totalProfit = simBalance - baseCapital;
+                document.getElementById('ledger-total').innerText = totalBetCount;
+                document.getElementById('ledger-wins').innerText = totalWinCount;
+                document.getElementById('ledger-losses').innerText = totalLossCount;
+                const profitEl = document.getElementById('ledger-profit');
+                profitEl.innerText = (totalProfit >= 0 ? '+' : '') + CAPITAL.formatMoney(totalProfit) + 'đ';
+                profitEl.style.color = totalProfit >= 0 ? '#0f0' : '#f00';
 
-        // Endgame stats
-        document.getElementById('stat-eg-count').innerHTML = `${egWins} Thắng / ${egLoss} Thua`;
-        const totalEg = egWins + egLoss;
-        document.getElementById('stat-eg-acc').innerHTML = totalEg > 0 ? `${((egWins/totalEg)*100).toFixed(1)}%` : '--';
-        document.getElementById('stat-eg-profit').innerHTML = totalProfit >= 0 ? `+${CAPITAL.formatMoney(totalProfit)} đ` : `${CAPITAL.formatMoney(totalProfit)} đ`;
-        document.getElementById('stat-eg-profit').style.color = totalProfit >= 0 ? '#0f0' : '#f00';
+                // Endgame stats
+                document.getElementById('stat-eg-count').innerHTML = `${egWins} Thắng / ${egLoss} Thua`;
+                const totalEg = egWins + egLoss;
+                document.getElementById('stat-eg-acc').innerHTML = totalEg > 0 ? `${((egWins / totalEg) * 100).toFixed(1)}%` : '--';
+                document.getElementById('stat-eg-profit').innerHTML = totalProfit >= 0 ? `+${CAPITAL.formatMoney(totalProfit)} đ` : `${CAPITAL.formatMoney(totalProfit)} đ`;
+                document.getElementById('stat-eg-profit').style.color = totalProfit >= 0 ? '#0f0' : '#f00';
 
-        document.getElementById('stat-accuracy').innerText = hist.accuracy || '--';
-        document.getElementById('stat-correct').innerText = hist.total > 0 ? `${hist.correct} / ${hist.total}` : '--';
-        
-        // Show actual capacity
-        const totalLogs = pred.historyCount || 0;
-        const capacity = hist.maxCapacity || 10000;
-        document.getElementById('stat-history').innerText = `${totalLogs} / ${capacity} LOGS MỚI NHẤT`;
-        document.getElementById('stat-updated').innerText = pred.updatedAt ? new Date(pred.updatedAt).toLocaleTimeString('vi-VN') : '--';
+                document.getElementById('stat-accuracy').innerText = hist.accuracy || '--';
+                document.getElementById('stat-correct').innerText = hist.total > 0 ? `${hist.correct} / ${hist.total}` : '--';
 
-        if (hist.history && hist.history.length > 0) {
-            document.getElementById('history-list').innerHTML = hist.history.slice(0,40).map(h => {
-                const icon = h.correct===null?'<i class="fas fa-hourglass-half" style="color:#aaa"></i>'
-                           :h.correct?'<i class="fas fa-check-circle" style="color:#0f0;text-shadow:0 0 5px #0f0"></i>'
-                           :'<i class="fas fa-times-circle" style="color:#f00"></i>';
-                const isEg = h.adaptive && h.adaptive.recommendation && h.adaptive.recommendation.includes('TẤT TAY');
-                const confTag = isEg ? '<span style="color:#ff0000;font-weight:bold">[ENDGAME]</span>' : `${h.confidence}%`;
-                
-                return `
-                <div class="history-item" style="${isEg?'background:rgba(255,0,0,0.1);padding:8px 5px;border-left:3px solid #f00':''}">
+                // Show actual capacity
+                const totalLogs = pred.historyCount || 0;
+                const capacity = hist.maxCapacity || 10000;
+                document.getElementById('stat-history').innerText = `${totalLogs} / ${capacity} LOGS MỚI NHẤT`;
+                document.getElementById('stat-updated').innerText = pred.updatedAt ? new Date(pred.updatedAt).toLocaleTimeString('vi-VN') : '--';
+
+                if (hist.history && hist.history.length > 0) {
+                    document.getElementById('history-list').innerHTML = hist.history.slice(0, 40).map(h => {
+                        const icon = h.correct === null ? '<i class="fas fa-hourglass-half" style="color:#aaa"></i>'
+                            : h.correct ? '<i class="fas fa-check-circle" style="color:#0f0;text-shadow:0 0 5px #0f0"></i>'
+                                : '<i class="fas fa-times-circle" style="color:#f00"></i>';
+                        const isEg = h.adaptive && h.adaptive.recommendation && h.adaptive.recommendation.includes('TẤT TAY');
+                        const confTag = isEg ? '<span style="color:#ff0000;font-weight:bold">[ENDGAME]</span>' : `${h.confidence}%`;
+
+                        return `
+                <div class="history-item" style="${isEg ? 'background:rgba(255,0,0,0.1);padding:8px 5px;border-left:3px solid #f00' : ''}">
                     <span class="phien">#${h.phien}</span>
-                    <span class="pred ${h.prediction==='TAI'?'tai':'xiu'}">${h.prediction==='TAI'?'TÀI':'XỈU'}</span>
+                    <span class="pred ${h.prediction === 'TAI' ? 'tai' : 'xiu'}">${h.prediction === 'TAI' ? 'TÀI' : 'XỈU'}</span>
                     <span class="conf">${confTag}</span>
                     <span class="result-icon">${icon}</span>
                 </div>`;
-            }).join('');
+                    }).join('');
+                }
+
+            } catch (e) {
+                document.getElementById('server-status').innerHTML = '❌ <span style="color:#f00">MẤT KẾT NỐI SERVER CORE</span>';
+                document.getElementById('ai-status').innerText = 'ERROR: API OFFLINE';
+            }
         }
 
-    } catch(e) {
-        document.getElementById('server-status').innerHTML = '❌ <span style="color:#f00">MẤT KẾT NỐI SERVER CORE</span>';
-        document.getElementById('ai-status').innerText = 'ERROR: API OFFLINE';
-    }
-}
+        fetchData();
+        setInterval(fetchData, 3000);
 
-fetchData();
-setInterval(fetchData, 3000);
-
-function getExpectedNums(baseSum, isTai) {
-    if (!baseSum) return '--';
-    let arr = [];
-    if (isTai) {
-        if (baseSum <= 6) arr = [11,12,13];
-        else if (baseSum >= 15) arr = [13,14,15];
-        else if (baseSum % 2 === 0) arr = [12,14,16];
-        else arr = [11,13,15];
-    } else {
-        if (baseSum >= 15) arr = [8,9,10];
-        else if (baseSum <= 6) arr = [6,7,8];
-        else if (baseSum % 2 === 0) arr = [6,8,10];
-        else arr = [5,7,9];
-    }
-    return arr.join(' • ');
-}
-</script>
+        function getExpectedNums(baseSum, isTai) {
+            if (!baseSum) return '--';
+            let arr = [];
+            if (isTai) {
+                if (baseSum <= 6) arr = [11, 12, 13];
+                else if (baseSum >= 15) arr = [13, 14, 15];
+                else if (baseSum % 2 === 0) arr = [12, 14, 16];
+                else arr = [11, 13, 15];
+            } else {
+                if (baseSum >= 15) arr = [8, 9, 10];
+                else if (baseSum <= 6) arr = [6, 7, 8];
+                else if (baseSum % 2 === 0) arr = [6, 8, 10];
+                else arr = [5, 7, 9];
+            }
+            return arr.join(' • ');
+        }
+    </script>
 </body>
+
 </html>
