@@ -19,7 +19,12 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at center, #050505 0%, #000000 100%);
+            background: #000;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -27,25 +32,35 @@
             padding: 20px;
             color: #fff;
             user-select: none;
-            transition: background 0.5s ease;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* ENDGAME MONSTER MODE (Khi thuật toán phát tín hiệu TẤT TAY) */
+        /* SCANLINE EFFECT */
+        body::after {
+            content: " ";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.01));
+            background-size: 100% 4px, 3px 100%;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        /* ENDGAME MONSTER MODE */
         body.endgame-active {
-            background: radial-gradient(circle at center, #2a0000 0%, #000000 100%);
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(0,100%,10%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(0,100%,20%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(0,100%,10%,1) 0, transparent 50%);
             animation: endgameBgPulse 2s infinite;
         }
 
         @keyframes endgameBgPulse {
-
-            0%,
-            100% {
-                box-shadow: inset 0 0 50px #ff0000;
-            }
-
-            50% {
-                box-shadow: inset 0 0 150px #ff0000;
-            }
+            0%, 100% { box-shadow: inset 0 0 50px rgba(255,0,0,0.3); }
+            50% { box-shadow: inset 0 0 150px rgba(255,0,0,0.6); }
         }
 
         @keyframes spin {
@@ -166,88 +181,93 @@
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-family: 'Orbitron', sans-serif;
+            position: relative;
         }
 
         .header h1 {
-            font-size: 24px;
+            font-size: 36px;
             font-weight: 900;
-            letter-spacing: 4px;
+            letter-spacing: 8px;
             text-transform: uppercase;
-            text-shadow: 0 0 25px #00ffff;
-            color: #fff;
+            background: linear-gradient(to right, #00ffff, #fff, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+            margin-bottom: 5px;
         }
 
         body.endgame-active .header h1 {
-            text-shadow: 0 0 25px #ff0000;
-            color: #ffdddd;
+            background: linear-gradient(to right, #ff0000, #fff, #ff0000);
+            -webkit-background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
         }
 
         .header p {
-            color: #aaa;
-            font-size: 12px;
-            margin-top: 5px;
-            font-family: 'Inter', sans-serif;
+            color: rgba(0, 255, 255, 0.6);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
         }
 
         .game-tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
         .tab-btn {
-            padding: 12px 25px;
-            border: 1px solid rgba(0, 255, 255, 0.4);
-            background: rgba(0, 10, 20, 0.6);
-            color: #aaa;
-            border-radius: 12px;
+            padding: 14px 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+            border-radius: 16px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 2px;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: 'Orbitron', sans-serif;
             backdrop-filter: blur(10px);
         }
 
         .tab-btn.active {
-            background: rgba(0, 255, 255, 0.15);
+            background: rgba(0, 255, 255, 0.1);
             color: #00ffff;
             border-color: #00ffff;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
-            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.2);
+            transform: translateY(-3px);
         }
 
         body.endgame-active .tab-btn.active {
-            background: rgba(255, 0, 0, 0.2);
-            color: #ff5555;
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff3333;
             border-color: #ff0000;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
         }
 
-        /* MAIN PILL */
+        /* MAIN PILL UPGRADE */
         .god-pill {
-            width: 340px;
-            padding: 25px 20px;
-            background: rgba(10, 15, 30, 0.6);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            border-radius: 30px;
+            width: 420px;
+            padding: 35px 25px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            animation: neonPulse 4s infinite;
             position: relative;
             overflow: hidden;
-            margin-bottom: 25px;
-            transition: all 0.5s ease;
+            margin-bottom: 35px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
         body.endgame-active .god-pill {
-            background: rgba(40, 5, 5, 0.8);
-            border: 2px solid #ff0000;
-            animation: endgameNeonPulse 1.5s infinite;
+            border: 2px solid rgba(255, 0, 0, 0.5);
+            background: rgba(255, 0, 0, 0.05);
         }
 
         .god-pill::before {
@@ -274,22 +294,21 @@
 
         .current-number-header {
             width: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(0, 255, 255, 0.4);
-            border-radius: 15px;
-            padding: 10px 15px;
-            margin-bottom: 20px;
-            z-index: 5;
-            position: relative;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.1);
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            margin-bottom: 25px;
+            z-index: 5;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         body.endgame-active .current-number-header {
             border-color: #ff0000;
-            box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.3);
+            background: rgba(255, 0, 0, 0.1);
         }
 
         .c-label {
@@ -341,13 +360,14 @@
         }
 
         .signal-lamp {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(5, 5, 5, 0.9);
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.4s;
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
+            position: relative;
+            box-shadow: inset 0 0 15px #000;
         }
 
         .active-tai {
@@ -407,22 +427,22 @@
         }
 
         .ai-logo-wrap {
-            width: 75px;
-            height: 75px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 10px;
-            background: rgba(0, 15, 30, 0.8);
-            border: 2px solid rgba(0, 255, 255, 0.8);
-            box-shadow: 0 0 35px rgba(0, 255, 255, 0.6);
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.1);
         }
 
         body.endgame-active .ai-logo-wrap {
             border-color: #ff0000;
-            box-shadow: 0 0 45px rgba(255, 0, 0, 0.9);
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.2) 0%, transparent 70%);
         }
 
         .center-blink-tai {
@@ -481,20 +501,19 @@
         }
 
         .ai-logo {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             z-index: 2;
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.9);
-            background: #000;
-            border: 2px solid #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             object-fit: cover;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5));
         }
 
         body.endgame-active .ai-logo {
-            box-shadow: 0 0 35px #ff0000;
-            border-color: #ff0000;
-            filter: hue-rotate(150deg) saturate(3);
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.6);
+            border-color: #f00;
         }
 
         /* Makes the skull look demonic */
@@ -602,211 +621,163 @@
             font-family: 'Orbitron', sans-serif;
         }
 
-        /* ==================== PANEL DƯỚI ==================== */
+        /* ==================== PANEL DƯỚI (DASHBOARD GRID) ==================== */
         .panel-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 25px;
             width: 100%;
-            max-width: 340px;
+            max-width: 1400px;
+            margin-top: 35px;
+            z-index: 10;
         }
 
         .box-module {
-            background: rgba(10, 15, 30, 0.6);
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(25px);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .box-module:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(0, 255, 255, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
         }
 
         body.endgame-active .box-module {
-            border-color: rgba(255, 0, 0, 0.3);
-            background: rgba(30, 5, 5, 0.7);
+            border-color: rgba(255, 0, 0, 0.4);
+            box-shadow: 0 10px 40px rgba(255, 0, 0, 0.1);
+            background: rgba(40, 5, 5, 0.4);
         }
 
         .box-module h3 {
-            font-size: 14px;
-            color: #00ffff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            text-align: center;
             font-family: 'Orbitron', sans-serif;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            font-size: 15px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 15px;
         }
 
-        body.endgame-active .box-module h3 {
-            color: #ff3333;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        .box-module h3 i {
+            color: #00ffff;
+            filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.6));
         }
 
-        /* VỐN */
+        /* INPUTS & CONTROLS */
         .capital-input-group {
-            margin-bottom: 12px;
+            margin-bottom: 20px;
         }
 
         .capital-input-group label {
             display: block;
             font-size: 11px;
-            color: #aaa;
-            margin-bottom: 5px;
-            font-weight: bold;
+            color: rgba(255, 255, 255, 0.5);
             text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            font-weight: 700;
         }
 
         .capital-input-group input,
         .capital-input-group select {
             width: 100%;
-            padding: 10px 12px;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            border-radius: 10px;
+            padding: 14px 18px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             color: #fff;
             font-size: 14px;
-            font-weight: bold;
-            font-family: inherit;
-            transition: 0.3s;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
         }
 
-        .capital-input-group input:focus,
-        .capital-input-group select:focus {
+        .capital-input-group input:focus {
             border-color: #00ffff;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.6);
         }
 
         .capital-suggest {
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 100, 255, 0.1));
-            border: 1px dashed #00ffff;
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(0, 255, 255, 0.02));
+            border: 1px solid rgba(0, 255, 255, 0.3);
             text-align: center;
+            box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.05);
         }
 
         body.endgame-active .capital-suggest {
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(150, 0, 0, 0.2));
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.05));
             border-color: #ff0000;
-            animation: endgameNeonPulse 1s infinite;
-        }
-
-        .capital-suggest .label {
-            font-size: 11px;
-            color: #ccc;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .capital-suggest .amount {
-            font-size: 24px;
+            font-size: 32px;
             font-weight: 900;
             color: #00ffff;
-            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-            margin: 8px 0;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+            margin: 10px 0;
             font-family: 'Orbitron', sans-serif;
         }
 
-        body.endgame-active .capital-suggest .amount {
-            color: #fff;
-            text-shadow: 0 0 20px #ff0000;
-            font-size: 28px;
-        }
-
-        .capital-suggest .msg {
-            font-size: 13px;
-            font-weight: 900;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .capital-suggest .msg.go {
-            color: #0f0;
-        }
-
-        .capital-suggest .msg.skip {
-            color: #aaa;
-        }
-
-        body.endgame-active .capital-suggest .msg.go {
-            color: #ff0000;
-            text-shadow: 0 0 10px #ff0000;
-            font-size: 16px;
-        }
-
-        /* STATS */
+        /* STATS & HISTORY */
         .stats-row {
             display: flex;
             justify-content: space-between;
-            font-size: 13px;
-            margin-bottom: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 5px;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
         }
 
-        .stats-row span:first-child {
-            color: #aaa;
+        .stats-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
         }
 
-        .stats-row span:last-child {
-            color: #fff;
-            font-weight: bold;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        /* HISTORY */
-        .history-box {
-            max-height: 350px;
-            overflow-y: auto;
-        }
-
-        .history-box::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .history-box::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
+        .history-box::-webkit-scrollbar { width: 4px; }
         .history-box::-webkit-scrollbar-thumb {
-            background: rgba(0, 255, 255, 0.3);
-            border-radius: 4px;
+            background: rgba(0, 255, 255, 0.5);
+            border-radius: 10px;
         }
 
         .history-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 18px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             font-size: 12px;
         }
 
-        .history-item .phien {
-            color: #888;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .history-item .pred {
-            font-weight: 900;
-            font-size: 13px;
-        }
-
-        .history-item .pred.tai {
-            color: #0f0;
-        }
-
-        .history-item .pred.xiu {
-            color: #f00;
-        }
-
-        .history-item .result-icon {
-            font-size: 15px;
-        }
-
-        .history-item .conf {
-            color: #666;
-            font-family: 'Orbitron', sans-serif;
-        }
+        .history-item .phien { color: #555; font-family: 'Orbitron', sans-serif; font-size: 11px; }
+        .history-item .pred { font-weight: 900; letter-spacing: 1px; font-size: 13px; }
+        .history-item .pred.tai { color: #0f0; }
+        .history-item .pred.xiu { color: #f00; }
+        .history-item .conf { color: #666; font-family: 'Orbitron', sans-serif; }
 
         /* LOCK OVERLAY CHO VỐN */
         .box-module.locked {
@@ -960,11 +931,14 @@
         <!-- STATS -->
         <div class="box-module">
             <h3><i class="fas fa-database"></i> DATA CENTER</h3>
-            <div class="stats-row"><span>Tỉ Lệ Thắng Lệnh:</span><span id="stat-accuracy" style="color:#0f0">--</span>
-            </div>
+            <div class="stats-row"><span>Tỉ Lệ Thắng Lệnh:</span><span id="stat-accuracy" style="color:#0f0">--</span></div>
             <div class="stats-row"><span>Lệnh Đúng/Tổng:</span><span id="stat-correct">--</span></div>
             <div class="stats-row"><span>Log RAM Tích Lũy:</span><span id="stat-history">--</span></div>
             <div class="stats-row"><span>Tín Hiệu Cuối:</span><span id="stat-updated">--</span></div>
+            <button onclick="window.open('/api/system-intelligence?game='+currentGame)" 
+                style="width:100%;margin-top:15px;padding:12px;background:rgba(0,255,255,0.1);border:1px solid #0ff;color:#0ff;border-radius:12px;cursor:pointer;font-family:'Orbitron', sans-serif;font-weight:900;text-shadow:0 0 10px #0ff;">
+                <i class="fas fa-file-export"></i> XUẤT TRÍ TUỆ ĐEN (BLACK BOX)
+            </button>
         </div>
 
         <!-- ENDGAME SIMULATION -->
