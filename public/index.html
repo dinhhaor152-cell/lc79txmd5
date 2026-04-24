@@ -328,6 +328,37 @@ body.endgame-active .capital-suggest .msg.go { color:#ff0000; text-shadow: 0 0 1
         <h3><i class="fas fa-history"></i> LỊCH SỬ AI CHỐT</h3>
         <div id="history-list"></div>
     </div>
+
+    <!-- SỔ KẾ TOÁN CƯỢC CHI TIẾT -->
+    <div class="box-module" style="grid-column: 1 / -1; max-width: 100%;">
+        <h3 style="color:#ffaa00;text-align:center"><i class="fas fa-book"></i> SỔ KẾ TOÁN CƯỢC THỰC CHIẾN (LIVE)</h3>
+        <p style="font-size:11px;color:#666;text-align:center;margin:0 0 10px 0">Mô phỏng từng ván dựa trên lịch sử AI đã chốt &bull; Vốn tính tự động theo ô "Vốn Hiện Tại" bên trên</p>
+        <div style="max-height:400px; overflow-y:auto; border:1px solid #333; border-radius:8px;">
+            <table style="width:100%; border-collapse:collapse; font-size:12px; text-align:center; color:#ccc;">
+                <thead style="background:#111; color:#0ff; position:sticky; top:0; z-index:1;">
+                    <tr>
+                        <th style="padding:8px;border-bottom:2px solid #0ff">Phiên</th>
+                        <th style="padding:8px;border-bottom:2px solid #0ff">AI Báo</th>
+                        <th style="padding:8px;border-bottom:2px solid #0ff">Conf%</th>
+                        <th style="padding:8px;border-bottom:2px solid #0ff">Chiến Thuật</th>
+                        <th style="padding:8px;border-bottom:2px solid #0ff">Tiền Cược</th>
+                        <th style="padding:8px;border-bottom:2px solid #0ff">KQ Thật</th>
+                        <th style="padding:8px;border-bottom:2px solid #0ff">Đúng/Sai</th>
+                        <th style="padding:8px;border-bottom:2px solid #0ff">Lãi/Lỗ</th>
+                        <th style="padding:8px;border-bottom:2px solid #0ff">Số Dư Ví</th>
+                    </tr>
+                </thead>
+                <tbody id="ledger-body">
+                    <tr><td colspan="9" style="padding:20px;color:#666">Đang đợi dữ liệu đủ 50 Data vòng lọc...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:10px;padding:8px;background:#111;border-radius:8px;font-size:13px;">
+            <span>Tổng Lệnh: <strong id="ledger-total" style="color:#0ff">0</strong></span>
+            <span>Thắng: <strong id="ledger-wins" style="color:#0f0">0</strong> | Thua: <strong id="ledger-losses" style="color:#f00">0</strong></span>
+            <span>Lãi Ròng: <strong id="ledger-profit" style="color:#0f0">0đ</strong></span>
+        </div>
+    </div>
 </div>
 
 <br><br>
@@ -537,64 +568,112 @@ async function fetchData() {
             }
         }
 
-        // TÍNH TOÁN LÃI SUẤT ẢO KHI CÓ LỆNH TẤT TAY TỪ DATA SERVER
-        // Lấy danh sách lệnh Tất Tay từ khi boot (đảo ngược để tính từ cũ tới mới)
-        const endgamesLog = hist.history.filter(h => h.adaptive && h.adaptive.recommendation && h.adaptive.recommendation.includes('TẤT TAY'));
-        const completedEndgames = endgamesLog.filter(x => x.correct !== null);
-        const calcEndgames = [...completedEndgames].reverse();
+        // ====== SỔ KẾ TOÁN CƯỢC TOÀN BỘ (TẤT CẢ CÁC VÁN) ======
+        const allCompleted = hist.history ? hist.history.filter(x => x.correct !== null) : [];
+        const chronological = [...allCompleted].reverse(); // Cũ -> Mới
 
         let baseCapital = parseInt(document.getElementById('input-capital')?.value) || 200000;
         let BASE_UNIT = Math.floor(baseCapital * 0.01);
         let simBalance = baseCapital;
         let egWins = 0, egLoss = 0;
-        let wasLastFailed = false;
-        let ledgerHtml = "";
+        let totalBetCount = 0, totalWinCount = 0, totalLossCount = 0;
+        let wasLastEndgameFailed = false;
+        let ledgerRows = [];
 
-        calcEndgames.forEach(eg => {
-            let unitMultiplier = wasLastFailed ? 15 : 5;
-            let betAmount = Math.floor(BASE_UNIT * unitMultiplier);
-            if (betAmount > simBalance) betAmount = simBalance;
-            if (simBalance <= 0) return;
-            
-            let color = ''; let textWL = ''; let pl = 0;
-            
-            if (eg.correct) {
-                pl = Math.floor(betAmount * 0.98);
-                simBalance += pl;
-                egWins++;
-                wasLastFailed = false;
-                color = '#0f0'; textWL = 'THẮNG';
+        chronological.forEach(h => {
+            const isEg = h.adaptive && h.adaptive.recommendation && h.adaptive.recommendation.includes('TẤT TAY');
+            const conf = h.confidence || 0;
+            let unitMul = 0;
+            let strategy = '';
+
+            if (isEg) {
+                unitMul = wasLastEndgameFailed ? 15 : 5;
+                strategy = wasLastEndgameFailed ? 'ĐẠI BÁC X15 ☢️' : 'ENDGAME X5 💥';
             } else {
-                pl = -betAmount;
-                simBalance -= betAmount;
-                egLoss++;
-                wasLastFailed = true;
-                color = '#f00'; textWL = 'THUA';
+                // Sử dụng cùng logic mode trên UI
+                const mode = document.getElementById('input-mode')?.value || 'all';
+                if (mode === 'safe') {
+                    if (conf >= 95) { unitMul = 1; strategy = 'AN TOÀN X1'; }
+                    else if (conf >= 85) { unitMul = 0.5; strategy = 'AN TOÀN X0.5'; }
+                    else { unitMul = 0; strategy = 'BỎ QUA'; }
+                } else if (mode === 'all') {
+                    if (conf >= 95) { unitMul = 3; strategy = 'CỨNG X3'; }
+                    else if (conf >= 85) { unitMul = 1; strategy = 'ỔN X1'; }
+                    else if (conf >= 75) { unitMul = 0.5; strategy = 'DÒ X0.5'; }
+                    else { unitMul = 0.2; strategy = 'MỒI X0.2'; }
+                } else {
+                    if (conf >= 95) { unitMul = 3; strategy = 'NHANH X3'; }
+                    else if (conf >= 85) { unitMul = 2; strategy = 'NHANH X2'; }
+                    else if (conf >= 75) { unitMul = 1; strategy = 'NHANH X1'; }
+                    else { unitMul = 0; strategy = 'BỎ QUA'; }
+                }
             }
 
-            const tr = `
-            <tr style="border-bottom:1px solid #222; background:${wasLastFailed?'rgba(255,0,0,0.1)':'transparent'}">
-                <td style="padding:5px">${eg.phien}</td>
-                <td style="color:${eg.prediction==='TAI'?'#0f0':'#f0f'}">${eg.prediction}</td>
-                <td style="color:#ffaa00">X${unitMultiplier} / ${CAPITAL.formatMoney(betAmount)}đ</td>
-                <td>${!eg.correct && eg.prediction === 'TAI' ? 'XỈU' : (!eg.correct && eg.prediction === 'XIU' ? 'TÀI' : eg.prediction)}</td>
-                <td style="color:${color}">${pl > 0 ? '+'+CAPITAL.formatMoney(pl) : CAPITAL.formatMoney(pl)}đ</td>
-                <td style="color:#0ff; font-weight:bold">${CAPITAL.formatMoney(simBalance)}đ</td>
-            </tr>`;
-            ledgerHtml = tr + ledgerHtml; // đưa ván mới nhất lên đầu mâm
+            let betAmount = Math.floor(BASE_UNIT * unitMul);
+            if (betAmount > simBalance) betAmount = simBalance;
+            if (simBalance <= 0) betAmount = 0;
+
+            // Tính kết quả thực tế từ ván đó
+            const actualResult = h.correct ? h.prediction : (h.prediction === 'TAI' ? 'XIU' : 'TAI');
+            let pl = 0;
+            let wlText = '';
+            let wlColor = '#aaa';
+
+            if (betAmount > 0) {
+                totalBetCount++;
+                if (h.correct) {
+                    pl = Math.floor(betAmount * 0.98); // trừ 2% phế
+                    simBalance += pl;
+                    totalWinCount++;
+                    wlText = '✅ THẮNG';
+                    wlColor = '#0f0';
+                    if (isEg) { egWins++; wasLastEndgameFailed = false; }
+                } else {
+                    pl = -betAmount;
+                    simBalance -= betAmount;
+                    totalLossCount++;
+                    wlText = '❌ THUA';
+                    wlColor = '#f00';
+                    if (isEg) { egLoss++; wasLastEndgameFailed = true; }
+                }
+            } else {
+                wlText = '⏸️ BỎ QUA';
+                wlColor = '#555';
+            }
+
+            ledgerRows.push(`
+            <tr style="border-bottom:1px solid #1a1a1a;background:${isEg?'rgba(255,165,0,0.08)':(betAmount===0?'transparent':'transparent')}">
+                <td style="padding:6px;color:#888">#${h.phien}</td>
+                <td style="color:${h.prediction==='TAI'?'#0f0':'#f0f'};font-weight:bold">${h.prediction}</td>
+                <td style="color:${conf>=85?'#0ff':'#666'}">${conf}%</td>
+                <td style="color:#ffaa00;font-size:11px">${strategy}</td>
+                <td style="color:#fff">${betAmount > 0 ? CAPITAL.formatMoney(betAmount)+'đ' : '--'}</td>
+                <td style="color:${actualResult==='TAI'?'#0f0':'#f0f'}">${actualResult}</td>
+                <td style="color:${wlColor};font-weight:bold">${wlText}</td>
+                <td style="color:${pl>0?'#0f0':(pl<0?'#f00':'#555')};font-weight:bold">${pl>0?'+'+CAPITAL.formatMoney(pl):(pl<0?CAPITAL.formatMoney(pl):'--')}${pl!==0?'đ':''}</td>
+                <td style="color:#0ff;font-weight:bold">${CAPITAL.formatMoney(simBalance)}đ</td>
+            </tr>`);
         });
 
-        if (calcEndgames.length > 0) {
-            document.getElementById('ledger-body').innerHTML = ledgerHtml;
+        // Render bảng (ván mới nhất ở trên)
+        if (ledgerRows.length > 0) {
+            document.getElementById('ledger-body').innerHTML = ledgerRows.reverse().join('');
         }
 
-        const profit = simBalance - baseCapital;
-        const totalEg = egWins + egLoss;
+        const totalProfit = simBalance - baseCapital;
+        document.getElementById('ledger-total').innerText = totalBetCount;
+        document.getElementById('ledger-wins').innerText = totalWinCount;
+        document.getElementById('ledger-losses').innerText = totalLossCount;
+        const profitEl = document.getElementById('ledger-profit');
+        profitEl.innerText = (totalProfit >= 0 ? '+' : '') + CAPITAL.formatMoney(totalProfit) + 'đ';
+        profitEl.style.color = totalProfit >= 0 ? '#0f0' : '#f00';
 
+        // Endgame stats
         document.getElementById('stat-eg-count').innerHTML = `${egWins} Thắng / ${egLoss} Thua`;
+        const totalEg = egWins + egLoss;
         document.getElementById('stat-eg-acc').innerHTML = totalEg > 0 ? `${((egWins/totalEg)*100).toFixed(1)}%` : '--';
-        document.getElementById('stat-eg-profit').innerHTML = profit >= 0 ? `+${CAPITAL.formatMoney(profit)} đ` : `${CAPITAL.formatMoney(profit)} đ`;
-        document.getElementById('stat-eg-profit').style.color = profit >= 0 ? '#0f0' : '#f00';
+        document.getElementById('stat-eg-profit').innerHTML = totalProfit >= 0 ? `+${CAPITAL.formatMoney(totalProfit)} đ` : `${CAPITAL.formatMoney(totalProfit)} đ`;
+        document.getElementById('stat-eg-profit').style.color = totalProfit >= 0 ? '#0f0' : '#f00';
 
         document.getElementById('stat-accuracy').innerText = hist.accuracy || '--';
         document.getElementById('stat-correct').innerText = hist.total > 0 ? `${hist.correct} / ${hist.total}` : '--';
