@@ -548,6 +548,7 @@ async function fetchData() {
         let simBalance = baseCapital;
         let egWins = 0, egLoss = 0;
         let wasLastFailed = false;
+        let ledgerHtml = "";
 
         calcEndgames.forEach(eg => {
             let unitMultiplier = wasLastFailed ? 15 : 5;
@@ -555,16 +556,37 @@ async function fetchData() {
             if (betAmount > simBalance) betAmount = simBalance;
             if (simBalance <= 0) return;
             
+            let color = ''; let textWL = ''; let pl = 0;
+            
             if (eg.correct) {
-                simBalance += Math.floor(betAmount * 0.98);
+                pl = Math.floor(betAmount * 0.98);
+                simBalance += pl;
                 egWins++;
                 wasLastFailed = false;
+                color = '#0f0'; textWL = 'THẮNG';
             } else {
+                pl = -betAmount;
                 simBalance -= betAmount;
                 egLoss++;
                 wasLastFailed = true;
+                color = '#f00'; textWL = 'THUA';
             }
+
+            const tr = `
+            <tr style="border-bottom:1px solid #222; background:${wasLastFailed?'rgba(255,0,0,0.1)':'transparent'}">
+                <td style="padding:5px">${eg.phien}</td>
+                <td style="color:${eg.prediction==='TAI'?'#0f0':'#f0f'}">${eg.prediction}</td>
+                <td style="color:#ffaa00">X${unitMultiplier} / ${CAPITAL.formatMoney(betAmount)}đ</td>
+                <td>${!eg.correct && eg.prediction === 'TAI' ? 'XỈU' : (!eg.correct && eg.prediction === 'XIU' ? 'TÀI' : eg.prediction)}</td>
+                <td style="color:${color}">${pl > 0 ? '+'+CAPITAL.formatMoney(pl) : CAPITAL.formatMoney(pl)}đ</td>
+                <td style="color:#0ff; font-weight:bold">${CAPITAL.formatMoney(simBalance)}đ</td>
+            </tr>`;
+            ledgerHtml = tr + ledgerHtml; // đưa ván mới nhất lên đầu mâm
         });
+
+        if (calcEndgames.length > 0) {
+            document.getElementById('ledger-body').innerHTML = ledgerHtml;
+        }
 
         const profit = simBalance - baseCapital;
         const totalEg = egWins + egLoss;
