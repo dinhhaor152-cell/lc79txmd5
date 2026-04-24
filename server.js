@@ -245,13 +245,13 @@ app.get('/api/system-intelligence', (req, res) => {
     
     const formatExport = (gameId) => {
         const store = gameStores[gameId];
-        if (!store) return null;
+        if (!store || !Array.isArray(store.history)) return [];
         return store.history.map(h => ({
-            phien: h.phien,
+            phien: h.phien || 0,
             kq_that: h.correct !== null ? (h.correct ? h.prediction : (h.prediction === 'TAI' ? 'XIU' : 'TAI')) : 'WAIT',
-            ai_bao: h.prediction,
-            tin_cay: h.confidence,
-            logic: h.logic,
+            ai_bao: h.prediction || 'NONE',
+            tin_cay: h.confidence || 0,
+            logic: h.logic || 'N/A',
             endgame: h.adaptive?.recommendation || 'NONE',
             dung_sai: h.correct
         }));
@@ -264,7 +264,6 @@ app.get('/api/system-intelligence', (req, res) => {
         });
     } else {
         const data = formatExport(requestedGame);
-        if (!data) return res.status(404).json({ error: 'Game not found' });
         result[requestedGame] = data;
     }
 
